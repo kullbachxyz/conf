@@ -1,6 +1,8 @@
 #!/bin/sh
 
 export $TERMINAL=st
+
+mpd &
 dunst &
 xcompmgr &
 xwallpaper --zoom ~/.local/share/walls/wall &

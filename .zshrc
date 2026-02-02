@@ -58,6 +58,7 @@ alias vi='nvim'
 alias vim='nvim'
 
 alias conf='git --git-dir=$HOME/.conf/ --work-tree=$HOME'
+compdef _git conf
 
 alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 if type _git &>/dev/null; then
