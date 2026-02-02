@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Check if an argument is provided
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 mute|unmute|toggle"
+  exit 1
+fi
+
+# Clear previous notifications
+dunstctl close
+
+# Perform mic action
+case "$1" in
+  toggle)
+    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle &>/dev/null
+    ;;
+  mute)
+    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 1 &>/dev/null
+    ;;
+  unmute)
+    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 0 &>/dev/null
+    ;;
+  *)
+    echo "Invalid argument. Use mute | unmute | toggle"
+    exit 1
+    ;;
+esac
+
+# Get mic status
+MIC_INFO=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@)
+IS_MUTED=$(echo "$MIC_INFO" | grep -q MUTED && echo "yes" || echo "no")
+
+# Notify status
+if [ "$IS_MUTED" = "yes" ]; then
+  dunstify "Microphone: Muted 🎙️❌"
+else
+  dunstify "Microphone: Active 🎙️"
+fi

@@ -1,0 +1,28 @@
+directory: /home/ph/music
+library: /home/ph/music/beetslibrary.db
+
+import:
+  move: yes
+  write: yes
+  copy: no
+  resume: ask
+  incremental: yes
+
+paths:
+  default: $albumartist/$album%aunique{}/$track - $title
+  singleton: Singles/$artist/$title
+  comp: Compilations/$album/$track - $title
+
+plugins: fetchart embedart scrub replaygain lastgenre musicbrainz mbsync
+
+art_filename: cover
+embedart:
+  auto: yes
+
+replaygain:
+  backend: ffmpeg
+
+fetchart:
+  auto: yes
+  cautious: yes
+

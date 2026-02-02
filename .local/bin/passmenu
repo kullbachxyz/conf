@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+
+# Ensure GUI pinentry can talk to the session bus when launched from a keybinding.
+if [[ -n ${DISPLAY:-} ]]; then
+    export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+    export DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS:-"unix:path=$XDG_RUNTIME_DIR/bus"}
+fi
+
+# If a TTY exists, update gpg-agent so pinentry can attach correctly.
+if [[ -t 0 ]]; then
+    export GPG_TTY
+    GPG_TTY=$(tty)
+    gpg-connect-agent updatestartuptty /bye >/dev/null
+fi
+
+# Enable recursive globbing to use **
+shopt -s globstar
+
+# Get all password files recursively
+password_files=( "$prefix"/**/*.gpg )
+
+# Debug: Print out the password files
+echo "Password files:"
+printf '%s\n' "${password_files[@]}"
+
+# If there are no files, exit
+[[ ${#password_files[@]} -eq 0 ]] && echo "No password files found!" && exit 1
+
+# dmenu command
+dmenu_cmd="dmenu -i"
+
+# Strip prefix and extension for pass
+password_files=("${password_files[@]#$prefix/}")
+password_files=("${password_files[@]%.gpg}")
+
+# Select password via dmenu
+password=$(printf '%s\n' "${password_files[@]}" | $dmenu_cmd "$@")
+
+# Exit if no password selected
+[[ -n $password ]] || exit 0
+
+# OTP handling
+if [[ $password == *otp* ]]; then
+    otp_code=$(pass otp "$password")
+
+    if [[ -z $otp_code ]]; then
+        echo "Error generating OTP code!"
+        exit 1
+    fi
+
+    printf '%s' "$otp_code" | xclip -selection clipboard >/dev/null 2>&1
+    notify-send "Pass" "OTP code copied to clipboard."
+else
+    # Get password (first line only)
+    if ! pass_output=$(pass show "$password"); then
+        echo "Error retrieving password!"
+        exit 1
+    fi
+
+    password_line=$(printf '%s\n' "$pass_output" | head -n 1)
+
+    printf '%s' "$password_line" | xclip -selection clipboard >/dev/null 2>&1
+    notify-send "Pass" "Password copied to clipboard."
+fi

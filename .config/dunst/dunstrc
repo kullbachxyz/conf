@@ -1,0 +1,25 @@
+[global]
+monitor = 0
+follow = keyboard
+width = (0, 512)
+height = (0, 315)
+frame_width = 3
+offset = (10, 29)
+padding = 15
+horizontal_padding = 15
+transparency = 25
+font = JetBrainsMono Nerd Font Propo 10
+format = "<b>%s</b>\n%b"
+background = "#000000"
+foreground = "#b0b3b4"
+highlight = "#a02a2a"
+frame_color = "#101112"
+
+[urgency_low]
+timeout = 3
+
+[urgency_normal]
+timeout = 5
+
+[urgency_critical]
+timeout = 10
