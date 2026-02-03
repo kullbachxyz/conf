@@ -4,12 +4,6 @@ SAVEHIST=10000
 HISTFILE=~/.zsh_history
 setopt HIST_IGNORE_DUPS SHARE_HISTORY prompt_subst
 
-# Default programs:
-export EDITOR="nvim"
-export TERMINAL="st"
-export TERMINAL_PROG="st"
-export BROWSER="librewolf"
-
 # Completion
 autoload -Uz compinit
 compinit
@@ -45,27 +39,16 @@ echo -ne '\e[6 q'
 preexec() { echo -ne '\e[6 q' ;}
 
 
-# Autosuggestions
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# Syntax highlighting
-# IMPORTANT: load this LAST
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # Aliases
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 
 alias conf='git --git-dir=$HOME/.conf/ --work-tree=$HOME'
-compdef _git conf
 
-alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-if type _git &>/dev/null; then
-  compdef _git cfg
-fi
+# Autosuggestions
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Exports
-export EDITOR="nvim"
-export PATH="$HOME/.local/bin:$PATH"
-export GPG_TTY=$(tty)
+# Syntax highlighting
+# IMPORTANT: load this LAST
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

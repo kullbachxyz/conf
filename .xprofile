@@ -1,5 +1,9 @@
 #!/bin/sh
+export EDITOR=nvim
 export TERMINAL=st
+export TERMINAL_PROG=st
+export BROWSER=librewolf
 
 export QT_QPA_PLATFORMTHEME=qt5ct
+export PATH="$HOME/.local/bin:$PATH"
 
