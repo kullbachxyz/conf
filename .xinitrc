@@ -1,8 +1,6 @@
 #!/bin/sh
 
-export TERMINAL=st
-
-export QT_QPA_PLATFORMTHEME=qt5ct
+[ -f "$HOME/.xprofile" ] && . "$HOME/.xprofile"
 
 # Start keyring early so env vars exist for systemd user / dbus activation
 # eval "$(/usr/bin/gnome-keyring-daemon --start --components=secrets)"

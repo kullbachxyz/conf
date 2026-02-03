@@ -1,0 +1,5 @@
+#!/bin/sh
+export TERMINAL=st
+
+export QT_QPA_PLATFORMTHEME=qt5ct
+
