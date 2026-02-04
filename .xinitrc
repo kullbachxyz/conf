@@ -6,6 +6,9 @@
 eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)"
 export SSH_AUTH_SOCK
 
+# Bootstrap keyring for Electron apps (Element, etc.)
+secret-tool store --label='xinitrc bootstrap' xinitrc bootstrap <<< "bootstrap" 2>/dev/null &
+
 
 mpd &
 dunst &
