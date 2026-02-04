@@ -39,6 +39,12 @@ echo -ne '\e[6 q'
 preexec() { echo -ne '\e[6 q' ;}
 
 
+#### TEMPORARY
+
+# Start graphical server on user's current tty if not already running.
+[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx
+
+
 # Aliases
 alias v='nvim'
 alias vi='nvim'
