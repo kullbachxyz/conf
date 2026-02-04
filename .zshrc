@@ -46,6 +46,9 @@ preexec() { echo -ne '\e[6 q' ;}
 
 
 # Aliases
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
