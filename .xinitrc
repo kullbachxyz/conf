@@ -3,8 +3,8 @@
 [ -f "$HOME/.xprofile" ] && . "$HOME/.xprofile"
 
 # Start keyring early so env vars exist for systemd user / dbus activation
-# eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)"
-#export SSH_AUTH_SOCK
+eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)"
+export SSH_AUTH_SOCK
 
 
 mpd &
