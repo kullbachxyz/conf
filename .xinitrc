@@ -9,7 +9,8 @@ export SSH_AUTH_SOCK
 # Bootstrap keyring for Electron apps (Element, etc.)
 secret-tool store --label='xinitrc bootstrap' xinitrc bootstrap <<< "bootstrap" 2>/dev/null &
 
-
+element-desktop &
+nextcloud &
 mpd &
 dunst &
 xcompmgr &
