@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Colors
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Editor
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+
+# Dotfiles
+alias conf='git --git-dir=$HOME/.conf/ --work-tree=$HOME'
+
+# Music download
+alias mdl='yt-dlp -x --audio-format mp3 --embed-thumbnail --add-metadata --output "~/input/%(artist)s/%(album)s/%(artist)s - %(title)s.%(ext)s"'
