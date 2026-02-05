@@ -1,0 +1,30 @@
+# Account 1
+IMAPAccount account1
+Host imap.example.com
+Port 993
+User your@email.com
+PassCmd "pass mail/your@email.com"
+AuthMechs LOGIN
+TLSType IMAPS
+TLSVersions +1.3
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore account1-remote
+Account account1
+
+MaildirStore account1-local
+Subfolders Verbatim
+Path ~/.local/share/mail/your@email.com/
+Inbox ~/.local/share/mail/your@email.com/INBOX
+
+Channel account1
+Sync All
+Create Both
+Expunge Both
+Remove None
+Far :account1-remote:
+Near :account1-local:
+SyncState ~/.local/share/mail/your@email.com/.mbsyncstate
+MaxMessages 0
+ExpireUnread no
+Patterns INBOX Drafts Sent Trash Spam Archive

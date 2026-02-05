@@ -1,0 +1,13 @@
+[account1]
+source          = maildir://~/.local/share/mail/your@email.com
+outgoing        = smtp://your%40email.com@smtp.example.com:587
+outgoing-cred-cmd = /usr/bin/pass show mail/your@email.com
+
+from            = Your Name <your@email.com>
+cache-headers   = true
+
+default         = INBOX
+copy-to         = Sent
+
+folders         = INBOX,Archive,Trash,Sent,Drafts,Spam
+folders-sort    = INBOX,Archive,Drafts,Sent,Trash,Spam

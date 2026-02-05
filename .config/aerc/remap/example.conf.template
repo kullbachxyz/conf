@@ -1,0 +1,8 @@
+# Folder name remapping
+# Left side = display name in aerc
+# Right side = actual folder name on server
+#
+# Example mappings:
+Inbox = INBOX
+Spam = Junk
+Sent = Sent Items
