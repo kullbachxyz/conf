@@ -1,7 +1,5 @@
 #!/bin/sh
 
-[ -f "$HOME/.xprofile" ] && . "$HOME/.xprofile"
-
 # Start keyring for secrets/pkcs11 (ssh dropped in gnome-keyring 46+)
 eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets)"
 
