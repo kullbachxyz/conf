@@ -17,13 +17,13 @@ if [ "$1" == "up" ]; then
   # Check if the volume is less than 1.00 (100%)
   if (( $(echo "$CURRENT_VOLUME < 1.00" | bc -l) )); then
     # Increase volume by 10%
-    wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+ &>/dev/null
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ &>/dev/null
   else
     echo "Volume is already at 100%"
   fi
 elif [ "$1" == "down" ]; then
   # Decrease volume by 10%
-  wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%- &>/dev/null
+  wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- &>/dev/null
 elif [ "$1" == "toggle" ]; then
   wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle &>/dev/null
 elif [ "$1" == "mute" ]; then
