@@ -14,3 +14,8 @@ alias conf='git --git-dir=$HOME/.conf/ --work-tree=$HOME'
 
 # Music download
 alias mdl='yt-dlp -x --audio-format mp3 --embed-thumbnail --add-metadata --output "~/input/%(artist)s/%(album)s/%(artist)s - %(title)s.%(ext)s"'
+
+# easily edit and compile dwm
+alias cdwm='nvim ~/.local/src/dwm/config.h'
+alias mdwm='cd ~/.local/src/dwm/ && sudo make clean install && cd -'
+
