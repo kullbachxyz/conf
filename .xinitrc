@@ -2,9 +2,8 @@
 
 [ -f "$HOME/.xprofile" ] && . "$HOME/.xprofile"
 
-# Start keyring early so env vars exist for systemd user / dbus activation
-eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)"
-export SSH_AUTH_SOCK
+# Start keyring for secrets/pkcs11 (ssh dropped in gnome-keyring 46+)
+eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets)"
 
 # Bootstrap keyring for Electron apps (Element, etc.)
 secret-tool store --label='xinitrc bootstrap' xinitrc bootstrap <<< "bootstrap" 2>/dev/null &
