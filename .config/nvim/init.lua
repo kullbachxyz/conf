@@ -1,6 +1,14 @@
 -- ~/.config/nvim/init.lua
 
--- vim-plug block (still using it from Lua)
+-- Auto-install vim-plug if missing
+local plug_path = vim.fn.stdpath('data') .. '/site/autoload/plug.vim'
+if vim.fn.empty(vim.fn.glob(plug_path)) > 0 then
+  vim.fn.system({'curl', '-fLo', plug_path, '--create-dirs',
+    'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'})
+  vim.cmd('autocmd VimEnter * PlugInstall --sync | source $MYVIMRC')
+end
+
+-- vim-plug block
 vim.cmd [[
   call plug#begin('~/.local/share/nvim/plugged')
   Plug 'norcalli/nvim-colorizer.lua'
@@ -60,5 +68,5 @@ vim.cmd [[
 ]]
 
 -- ===== Colorizer =====
-require("colorizer").setup()
+pcall(function() require("colorizer").setup() end)
 
