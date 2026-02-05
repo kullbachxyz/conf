@@ -55,6 +55,8 @@ alias vim='nvim'
 
 alias conf='git --git-dir=$HOME/.conf/ --work-tree=$HOME'
 
+alias mdl='yt-dlp -t mp3 --embed-thumbnail --add-metadata --metadata-from-title "%(title)s" --parse-metadata "title:%(title)s" --parse-metadata "uploader:%(artist)s" --output "~/input/%(artist)s/%(album)s/%(artist)s - %(title)s.%(ext)s" '
+
 # Autosuggestions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 

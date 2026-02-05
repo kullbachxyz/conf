@@ -8,6 +8,3 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export PATH="$HOME/.local/bin:$PATH"
 
 export ELECTRON_PASSWORD_STORE=gnome-libsecret
-
-# gnome-keyring 46+ dropped ssh; use systemd ssh-agent
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
