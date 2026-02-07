@@ -21,10 +21,6 @@ shopt -s globstar
 # Get all password files recursively
 password_files=( "$prefix"/**/*.gpg )
 
-# Debug: Print out the password files
-echo "Password files:"
-printf '%s\n' "${password_files[@]}"
-
 # If there are no files, exit
 [[ ${#password_files[@]} -eq 0 ]] && echo "No password files found!" && exit 1
 

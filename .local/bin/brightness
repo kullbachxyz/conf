@@ -7,17 +7,17 @@ if [ $# -ne 1 ]; then
 fi
 
 # Define the brightness change percentage
-BRIGHTNESS_CHANGE=10%
+BRIGHTNESS_CHANGE=5%
 
 # Clear previous notifications using dunstctl
 dunstctl close
 
 # Perform the action based on the argument
 if [ "$1" == "up" ]; then
-  # Increase brightness by 5%
+  # Increase brightness
   brightnessctl set +$BRIGHTNESS_CHANGE &>/dev/null
 elif [ "$1" == "down" ]; then
-  # Decrease brightness by 5%
+  # Decrease brightness
   brightnessctl set $BRIGHTNESS_CHANGE- &>/dev/null
 else
   echo "Invalid argument. Use 'up' or 'down'."
