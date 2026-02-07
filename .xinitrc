@@ -15,8 +15,9 @@ xwallpaper --zoom "$HOME/.local/share/walls/wall" &
 systemctl --user import-environment DISPLAY XAUTHORITY XDG_RUNTIME_DIR SSH_AUTH_SOCK
 dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_RUNTIME_DIR SSH_AUTH_SOCK
 
-# Start PipeWire audio stack
-systemctl --user start pipewire.socket pipewire-pulse.socket wireplumber.service 2>/dev/null &
+pipewire &
+pipewire-pulse &
+wireplumber &
 
 dwmblocks &
 exec dwm
