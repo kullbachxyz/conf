@@ -19,5 +19,6 @@ pipewire &
 pipewire-pulse &
 wireplumber &
 
+mailnotify &
 dwmblocks &
 exec dwm

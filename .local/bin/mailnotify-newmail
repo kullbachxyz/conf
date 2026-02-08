@@ -1,0 +1,22 @@
+#!/bin/sh
+# Notify for each new mail in INBOX/new across all accounts
+
+MAIL_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/mail"
+
+newcount=$(find "$MAIL_DIR"/*/INBOX/new -type f 2>/dev/null | wc -l)
+[ "$newcount" -eq 0 ] && exit 0
+
+if [ "$newcount" -gt 5 ]; then
+	notify-send "$(printf '\uf42f') $newcount new messages"
+	exit 0
+fi
+
+for f in "$MAIL_DIR"/*/INBOX/new/*; do
+	[ -f "$f" ] || continue
+	from=$(awk '/^From:/{sub(/^From: */, ""); print; exit}' "$f" |
+		perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' |
+		sed 's/<[^>]*>//g;s/"//g;s/^ *//;s/ *$//')
+	subj=$(awk '/^Subject:/{sub(/^Subject: */, ""); print; exit}' "$f" |
+		perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')
+	notify-send "$(printf '\uf42f') ${from:-Unknown}" "${subj:-(no subject)}"
+done
