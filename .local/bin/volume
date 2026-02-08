@@ -6,8 +6,8 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-# Clear previous notifications using dunstctl
-dunstctl close
+# Fixed notification ID for replacement
+NOTIFY_ID=9999
 
 # Perform the action based on the argument
 if [ "$1" == "up" ]; then
@@ -47,7 +47,7 @@ IS_MUTED=$(echo "$VOLUME_INFO" | grep -q MUTED && echo "yes" || echo "no")
 
 # Display the current volume as a notification (without decimals)
 if [ "$IS_MUTED" == "yes" ]; then
-   dunstify --hints=int:value:0 "Volume: Muted 🔇"
+   dunstify -r "$NOTIFY_ID" --hints=int:value:0 "Volume: Muted 🔇"
 else
-  dunstify --hints=int:value:"$CURRENT_VOLUME_PERCENT" "Volume: $(printf "%.0f" "$CURRENT_VOLUME_PERCENT")%"
+  dunstify -r "$NOTIFY_ID" --hints=int:value:"$CURRENT_VOLUME_PERCENT" "Volume: $(printf "%.0f" "$CURRENT_VOLUME_PERCENT")%"
 fi
