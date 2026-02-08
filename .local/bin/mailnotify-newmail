@@ -18,5 +18,7 @@ for f in "$MAIL_DIR"/*/INBOX/new/*; do
 		sed 's/<[^>]*>//g;s/"//g;s/^ *//;s/ *$//')
 	subj=$(awk '/^Subject:/{sub(/^Subject: */, ""); print; exit}' "$f" |
 		perl -CS -MEncode -ne 'print decode("MIME-Header", $_)')
-	notify-send "$(printf '\uf42f') ${from:-Unknown}" "${subj:-(no subject)}"
+	notify-send "$(printf '\uf42f') New Mail" "<i>${from:-Unknown}</i>\n${subj:-(no subject)}"
 done
+
+pkill -RTMIN+6 dwmblocks
