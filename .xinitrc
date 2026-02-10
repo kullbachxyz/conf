@@ -16,6 +16,7 @@ systemctl --user import-environment DISPLAY XAUTHORITY XDG_RUNTIME_DIR SSH_AUTH_
 dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_RUNTIME_DIR SSH_AUTH_SOCK
 
 pipewire &
+sleep 1
 pipewire-pulse &
 wireplumber &
 
