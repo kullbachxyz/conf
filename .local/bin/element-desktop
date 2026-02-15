@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/element-desktop --password-store=gnome-libsecret "$@"
