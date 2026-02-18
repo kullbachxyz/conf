@@ -1,0 +1,4 @@
+#!/bin/sh
+
+host="$(cat "$HOME/.config/mpd/active_host" 2>/dev/null | tr -d '[:space:]')"
+exec /usr/bin/ncmpcpp ${host:+-h "$host"} "$@"
