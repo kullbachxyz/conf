@@ -1,0 +1,17 @@
+#!/bin/sh
+
+HOST_FILE="$HOME/.config/mpd/active_host"
+REMOTE="192.168.188.52"
+CURRENT="$(cat "$HOST_FILE" 2>/dev/null | tr -d '[:space:]')"
+
+choice=$(printf 'localhost\n%s' "$REMOTE" | dmenu -p "MPD host [current: $CURRENT]:")
+
+[ -z "$choice" ] && exit 0
+
+case "$choice" in
+    localhost) host="127.0.0.1" ;;
+    *)         host="$choice" ;;
+esac
+
+printf '%s\n' "$host" > "$HOST_FILE"
+pkill -RTMIN+5 dwmblocks
