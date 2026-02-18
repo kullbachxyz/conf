@@ -1,0 +1,35 @@
+scrolloff 5
+feeds-menu-paramount-explore true
+# status bar (mw: brightyellow black)
+color-status color11 black bold
+color-status-info cyan default
+color-status-fail red default bold
+
+# items (mw: yellow=read, brightyellow black=new, blue bg=selected, brightgreen=flagged)
+color-list-item yellow default
+color-list-item-selected color11 blue bold
+color-list-item-unread color11 black bold
+color-list-item-important color10 default bold
+
+# feeds (mw: red=author)
+color-list-feed yellow default
+color-list-feed-selected color11 blue bold
+color-list-feed-unread color9 black bold
+color-list-feed-failed red default
+
+# sections (mw: cyan=subject)
+color-list-section cyan default bold
+color-list-section-selected color14 blue bold
+color-list-section-unread color14 black bold
+color-list-section-failed red default bold
+
+bind ^P mark-unread-all
+
+bind f exec nsxiv "%l"
+
+bind m exec mpv "%l"
+
+bind a toggle-read
+
+bind W exec $BROWSER "%l"
+
