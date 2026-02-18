@@ -1,13 +1,14 @@
 # Custom fields
-field name_last = "Last Name", string
-field name_first = "First Name", string
+# field name_last = "Last Name", string
+# field name_first = "First Name", string
 field birthday = Birthday, date
 
 # sort by last name
 set sort_field=name_last
 
 # Views
-view CONTACT = name,name_last,name_first,email,mobile
+#view CONTACT = name,name_last,name_first,email,mobile
+view CONTACT = name,email,mobile
 view ADDRESS = address,address2,city,state,zip,country
 view PHONE = mobile,phone,workphone,fax
 view OTHER = nick,url,notes,birthday
