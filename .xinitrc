@@ -22,4 +22,4 @@ wireplumber &
 
 mailnotify &
 dwmblocks &
-exec dwm
+exec dbus-launch dwm
