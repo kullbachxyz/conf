@@ -10,3 +10,5 @@ export QT_QPA_PLATFORMTHEME=qt6ct
 export PATH="$HOME/.local/bin:$PATH"
 
 export ELECTRON_PASSWORD_STORE=gnome-libsecret
+export ADW_DEBUG_COLOR_SCHEME=prefer-dark
+
