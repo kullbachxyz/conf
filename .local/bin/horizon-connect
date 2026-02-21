@@ -39,35 +39,7 @@ fi
 
 # ── load saved values ──────────────────────────────────────────
 SAVED_SERVER="" SAVED_USER="" SAVED_DOMAIN=""
-# Horizon-only color-scheme override. Does NOT touch your system gsettings.
-# Edit ~/.config/horizon-connect/config to change:
-#   HORIZON_COLOR_SCHEME="default"    # default | prefer-light | prefer-dark
-#   HORIZON_GTK_THEME="Adwaita"       # Adwaita | Adwaita-dark | etc.
-HORIZON_COLOR_SCHEME="default"
-HORIZON_GTK_THEME="Adwaita"
 [[ -f "$CONFIG_FILE" ]] && source "$CONFIG_FILE"
-
-# ── build per-process dconf override for Horizon ──────────────
-# Horizon reads color-scheme via dconf. We inject a custom profile
-# so only the Horizon process sees our overrides, not the whole desktop.
-DCONF_DIR="$CONFIG_DIR/dconf"
-DCONF_DB_DIR="$DCONF_DIR/db/horizon-overrides.d"
-mkdir -p "$DCONF_DB_DIR"
-
-cat > "$DCONF_DB_DIR/00-horizon" <<DCONF
-[org/gnome/desktop/interface]
-color-scheme='${HORIZON_COLOR_SCHEME}'
-gtk-theme='${HORIZON_GTK_THEME}'
-DCONF
-
-cat > "$DCONF_DIR/profile" <<PROFILE
-user-db:user
-system-db:horizon-overrides
-PROFILE
-
-if command -v dconf &>/dev/null; then
-  dconf update "$DCONF_DIR/db" 2>/dev/null || true
-fi
 
 # ── CSS ────────────────────────────────────────────────────────
 CSS=$(cat <<'CSS'
@@ -76,57 +48,62 @@ CSS=$(cat <<'CSS'
   font-size: 13px;
 }
 window, .background {
-  background-color: #16181f;
+  background-color: #000000;
 }
 .yad-form {
-  background-color: #16181f;
+  background-color: #000000;
   padding: 4px 8px;
 }
 label {
-  color: #8b90a0;
+  color: #b0b3b4;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
 }
 entry {
-  background-color: #1e2130;
-  color: #dde1ed;
-  border: 1px solid #2e3347;
+  background-color: #101112;
+  color: #b0b3b4;
+  border: 1px solid #222222;
   border-radius: 5px;
   padding: 5px 10px;
-  caret-color: #4f8ef7;
+  caret-color: #b0b3b4;
   min-width: 260px;
 }
 entry:focus {
-  border-color: #4f8ef7;
-  box-shadow: inset 0 0 0 1px #4f8ef7;
-  background-color: #1e2338;
+  border-color: #b0b3b4;
+  box-shadow: inset 0 0 0 1px #b0b3b4;
+  background-color: #222222;
 }
 .dialog-action-area {
-  background-color: #16181f;
-  padding: 8px 12px 12px 12px;
-  border-top: 1px solid #22263a;
+  background-color: #000000;
+  padding: 8px 4px 12px 4px;
+  border-top: 1px solid #222222;
 }
-.dialog-action-area button {
+button {
+  background-image: none;
+  background-color: #101112;
+  color: #b0b3b4;
+  border: 1px solid #222222;
   border-radius: 5px;
-  border: none;
   padding: 6px 20px;
   font-weight: 700;
   font-size: 12px;
   min-width: 80px;
+  box-shadow: none;
+  text-shadow: none;
+}
+button:hover {
+  background-color: #222222;
+  color: #b0b3b4;
+  border-color: #b0b3b4;
+}
+button:active, button:checked {
+  background-color: #b0b3b4;
+  color: #000000;
 }
 .dialog-action-area button:first-child {
-  background: linear-gradient(135deg, #3b72f2, #5b4fe8);
-  color: #ffffff;
+  border-color: #b0b3b4;
 }
-.dialog-action-area button:first-child:hover  { background: linear-gradient(135deg,#4f82ff,#6f62ff); }
-.dialog-action-area button:first-child:active { background: #2a52c9; }
-.dialog-action-area button:last-child {
-  background-color: #252836;
-  color: #7880a0;
-  border: 1px solid #2e3347;
-}
-.dialog-action-area button:last-child:hover { background-color: #2e3347; color: #adb4cc; }
 CSS
 )
 
@@ -141,7 +118,7 @@ unset GTK2_RC_FILES
 
 # ── dialog ─────────────────────────────────────────────────────
 #  --class sets WM_CLASS so dwm's float rule matches it
-#  --focus-field 3 = password field (1-indexed) when server+user are pre-filled
+#  --focus-field 3 = password field when server+user are pre-filled
 FOCUS_ARG=()
 [[ -n "$SAVED_SERVER" && -n "$SAVED_USER" ]] && FOCUS_ARG=(--focus-field 3)
 
@@ -156,14 +133,13 @@ FORM=$(
     --width=360 \
     --no-escape \
     --gtkrc "$CSS_FILE" \
-    --image=none \
-    --text="<span font='15' weight='bold' color='#4f8ef7'>Horizon</span><sup><span font='9' color='#4f8ef7'>®</span></sup>  <span font='10' color='#454a60'>$HORIZON_BIN</span>" \
+    --text="<span font='15' weight='bold' color='#b0b3b4'>Horizon Connect</span>\n" \
     --text-align=left \
     --button="Connect:0" \
     --button="Cancel:1" \
     "${FOCUS_ARG[@]}" \
-    --field="Server:"   "${SAVED_SERVER}" \
-    --field="Username:" "${SAVED_USER}" \
+    --field="Server:"    "${SAVED_SERVER}" \
+    --field="Username:"  "${SAVED_USER}" \
     --field="Password:H" "" \
     2>/dev/null
 ) || { echo "Cancelled."; exit 0; }
@@ -184,14 +160,14 @@ USER="${USER// /}"
   exit 1
 }
 
-# ── silently save server, user, domain ────────────────────────
+# ── silently save server and user ─────────────────────────────
 cat > "$CONFIG_FILE" <<CFG
 SAVED_SERVER="$SERVER"
 SAVED_USER="$USER"
 CFG
 chmod 600 "$CONFIG_FILE"
 
-# ── launch Horizon with dark mode fixed ───────────────────────
+# ── launch ─────────────────────────────────────────────────────
 CLI_ARGS=(
   --serverURL="$SERVER"
   --userName="$USER"
@@ -201,13 +177,5 @@ CLI_ARGS=(
 [[ -n "$SAVED_DOMAIN" ]] && CLI_ARGS+=(--domainName="$SAVED_DOMAIN")
 
 echo "→ $HORIZON_BIN ${CLI_ARGS[*]//--password=*/--password=***}"
-
-# Point Horizon at our custom dconf profile so it reads our color-scheme override
-export DCONF_PROFILE="$DCONF_DIR/profile"
-export GTK_THEME="$HORIZON_GTK_THEME"
-export GTK2_RC_FILES="/usr/share/themes/${HORIZON_GTK_THEME}/gtk-2.0/gtkrc"
-export QT_STYLE_OVERRIDE="fusion"
-unset GTK_APPLICATION_PREFER_DARK_THEME
-export VMWARE_USE_SHIPPED_GTK=no
 
 exec "$HORIZON_BIN" "${CLI_ARGS[@]}"
