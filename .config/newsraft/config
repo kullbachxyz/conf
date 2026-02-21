@@ -31,5 +31,5 @@ bind m exec mpv "%l"
 
 bind a toggle-read
 
-bind W exec $BROWSER "%l"
+bind W exec $BROWSER --kiosk "%l"
 
