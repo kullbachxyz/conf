@@ -1,0 +1,10 @@
+#!/bin/sh
+
+while :; do
+
+	TIME=$(date '+%d %b %Y (%a) %H:%M')
+	BAT=$(cat /sys/class/power_supply/BAT1/capacity)%
+	xsetroot -name "$TIME | $BAT"
+
+	sleep 1m
+done
