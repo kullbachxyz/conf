@@ -3,6 +3,7 @@ if [ -f "$HOME/.xprofile" ]; then
     . "$HOME/.xprofile"
 fi
 
+dunst &
 dwmbar &
 
 exec dwm;
