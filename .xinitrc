@@ -4,6 +4,6 @@ if [ -f "$HOME/.xprofile" ]; then
 fi
 
 dunst &
-dwmbar &
+dwmblocks &
 
 exec dwm;
