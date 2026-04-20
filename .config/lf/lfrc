@@ -1,0 +1,20 @@
+# Basic settings
+set icons
+set cleaner '~/.config/lf/cleaner'
+set previewer '~/.config/lf/scope'
+
+# Commands
+cmd mkdir $mkdir -p "$@"
+
+# Bindings
+map c cut
+map H cd ~
+map D delete
+map gg top
+map G bottom
+
+
+map gw cd ~/pics/walls
+map gm cd /mnt
+
+map bg $setbg $f
