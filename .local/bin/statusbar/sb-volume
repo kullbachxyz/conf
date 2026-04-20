@@ -5,7 +5,7 @@
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
-		1|2) setsid -f "$TERMINAL" -e pulsemixer ;;
+		1|2) setsid -f st -e pulsemixer ;;
 	esac
 fi
 

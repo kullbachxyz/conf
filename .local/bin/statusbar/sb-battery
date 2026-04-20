@@ -1,47 +1,37 @@
 #!/bin/sh
-btn="${BLOCK_BUTTON:-$BUTTON}"
-if [ -n "$btn" ]; then
-    case "$btn" in
-        1|2) setsid -f "$TERMINAL" -e sh -c 'watch -n 1 acpi -V' ;;
-    esac
-fi
 
-ac_online=0
-total_capacity=0
-bat_count=0
-status="Unknown"
+# Prints all batteries, their percentage remaining and an emoji corresponding
+# to charge status (🔌 for plugged up, 🔋 for discharging on battery, etc.).
 
-for d in /sys/class/power_supply/*; do
-    [ -d "$d" ] || continue
-    type=$(cat "$d/type" 2>/dev/null)
-    case "$type" in
-        Battery)
-            cap=$(cat "$d/capacity" 2>/dev/null)
-            [ -z "$cap" ] && continue
-            [ "$cap" -gt 100 ] && cap=100
-            s=$(cat "$d/status" 2>/dev/null)
-            case "$s" in
-                Charging)             status="Charging" ;;
-                Discharging)          [ "$status" != "Charging" ] && status="Discharging" ;;
-                "Not charging"|Full)  [ "$status" = "Unknown" ] && status="Full" ;;
-            esac
-            total_capacity=$((total_capacity + cap))
-            bat_count=$((bat_count + 1))
-            ;;
-        Mains)
-            ac_online=$(cat "$d/online" 2>/dev/null || echo 0)
-            ;;
-    esac
-done
+case $BLOCK_BUTTON in
+	3) notify-send "🔋 Battery module" "🔋: discharging
+🛑: not charging
+♻: stagnant charge
+🔌: charging
+⚡: charged
+❗: battery very low!
+- Scroll to change adjust xbacklight." ;;
+	4) brightnessctl set 10+ ;;
+	5) brightnessctl set 10- ;;
+	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
 
-[ "$bat_count" -eq 0 ] && exit 0
-
-capacity=$((total_capacity / bat_count))
-
-if [ "$status" = "Charging" ] || { [ "$status" = "Full" ] && [ "$ac_online" = "1" ]; }; then
-    icon="🔌"
-else
-    icon="🔋"
-fi
-
-printf '%s%s%%\n' "$icon$capacity"
+# Loop through all attached batteries and format the info
+for battery in /sys/class/power_supply/BAT?*; do
+	# If non-first battery, print a space separator.
+	[ -n "${capacity+x}" ] && printf " "
+	# Sets up the status and capacity
+	case "$(cat "$battery/status" 2>&1)" in
+		"Full") status="⚡" ;;
+		"Discharging") status="🔋" ;;
+		"Charging") status="🔌" ;;
+		"Not charging") status="🛑" ;;
+		"Unknown") status="♻️" ;;
+		*) exit 1 ;;
+	esac
+	capacity="$(cat "$battery/capacity" 2>&1)"
+	# Will make a warn variable if discharging and low
+	[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
+	# Prints the info
+	printf "%s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+done && printf "\\n"
