@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+[ -f ~/.profile ] && . ~/.profile
+
 PS1='[\u@\h \W]\$ '
 
 # Aliases
