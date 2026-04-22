@@ -2,6 +2,17 @@
 # ~/.bashrc
 #
 
+HISTSIZE=10000000
+HISTFILESIZE=10000000
+
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"
+
+# Append to history file instead of overwriting
+shopt -s histappend
+
+# Write to history file immediately after each command, view all entries by paralel shells
+PROMPT_COMMAND='history -a; history -n'
+
 [ -f ~/.profile ] && . ~/.profile
 
 PS1='[\u@\h \W]\$ '
