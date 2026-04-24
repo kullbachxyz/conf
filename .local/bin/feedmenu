@@ -6,6 +6,7 @@ browser="${BROWSER:-xdg-open}"
 
 mkdir -p "$feed_dir" || exit 1
 
+notify-send "Updating RSS feeds..."
 sfeed_update "$sfeed_config" >/dev/null 2>&1
 
 choice="$(
