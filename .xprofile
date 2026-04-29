@@ -1,2 +1,7 @@
 export PIPEWIRE_RUNTIME_DIR=/run/user/$(id -u)
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
+export XDG_CURRENT_DESKTOP=dwm
+export XDG_SESSION_DESKTOP=dwm
+export XDG_SESSION_TYPE=x11
+
