@@ -7,14 +7,16 @@ set previewer '~/.config/lf/scope'
 cmd mkdir $mkdir -p "$@"
 
 # Bindings
+cmd open &xdg-open $f
 map c cut
 map H cd ~
+map gh cd /home/ph
+map o open
+map e $$EDITOR "$f"
 map D delete
 map gg top
 map G bottom
-
-
 map gw cd ~/pics/walls
 map gm cd /mnt
-
-map bg $setbg $f
+map zh set hidden!
+map zr set reverse!
