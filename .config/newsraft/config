@@ -1,0 +1,28 @@
+# Migrated from Newsboat on 2026-05-05
+# Mutt-like presentation.
+scrolloff 5
+menu-item-sorting time-publication-desc
+list-entry-date-format "%y/%m/%d %I:%M%p"
+menu-feed-sorting none
+status-show-menu-path true
+feeds-menu-paramount-explore true
+
+menu-feed-entry-format "%5.0u │ %t"
+menu-item-entry-format "%u │ %D │ %T │ %o"
+menu-explore-item-entry-format "%u │ %D │ %T │ %o"
+
+color-status yellow black bold
+color-status-info yellow black bold
+color-status-fail red black bold
+color-list-item yellow default
+color-list-item-selected yellow blue bold
+color-list-item-unread yellow default bold
+color-list-item-important green default bold
+color-list-feed yellow default
+color-list-feed-selected yellow blue bold
+color-list-feed-unread yellow default bold
+color-list-feed-failed red default bold
+color-list-section yellow default
+color-list-section-selected yellow blue bold
+color-list-section-unread yellow default bold
+color-list-section-failed red default bold
