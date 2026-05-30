@@ -10,6 +10,8 @@ dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESK
 eval "$(ssh-agent -s)"
 ssh-add "$HOME/.ssh/id_ed25519" </dev/null
 
+xwallpaper --zoom ~/pics/wall.png
+
 dunst &
 dwmblocks &
 
