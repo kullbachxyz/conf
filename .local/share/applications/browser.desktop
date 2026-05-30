@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Browser
+Icon=librewolf
+Exec=/usr/bin/librewolf %U
+Terminal=false
