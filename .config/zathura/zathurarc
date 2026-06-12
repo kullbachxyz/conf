@@ -38,8 +38,8 @@ set recolor-reverse-video false
 # Catppuccin Mocha colors
 # Main background uses transparency via Picom.
 # PDF pages stay normal because recolor is false.
-set default-bg                  rgba(30,30,46,0.75)
-set render-loading-bg           rgba(30,30,46,0.75)
+set default-bg                  rgba(30,30,46,0.92)
+set render-loading-bg           rgba(30,30,46,0.92)
 
 # Keep statusbar solid
 set statusbar-bg                "#181825"
@@ -68,7 +68,6 @@ set completion-group-fg         "#89b4fa"
 set recolor-lightcolor          "#1e1e2e"
 set recolor-darkcolor           "#cdd6f4"
 
-set render-loading-bg           rgba(30,30,46,0.75)
 set render-loading-fg           "#cdd6f4"
 
 set index-bg                    "#1e1e2e"
