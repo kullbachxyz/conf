@@ -62,37 +62,10 @@ vim.fn.mkdir(undodir, "p")
 vim.opt.undodir = undodir
 
 ------------------------------------------------------------
--- Minimal black colorscheme
+-- Shared autocommand group
 ------------------------------------------------------------
 
 local group = vim.api.nvim_create_augroup("UserConfig", { clear = true })
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-  group = group,
-  callback = function()
-    vim.api.nvim_set_hl(0, "Normal", { bg = "#000000", fg = "#d0d0d0" })
-    vim.api.nvim_set_hl(0, "NormalNC", { bg = "#000000", fg = "#b0b0b0" })
-    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "#000000", fg = "#000000" })
-
-    vim.api.nvim_set_hl(0, "CursorLine", { bg = "#101010" })
-    vim.api.nvim_set_hl(0, "LineNr", { bg = "#000000", fg = "#404040" })
-    vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "#101010", fg = "#ffffff" })
-    vim.api.nvim_set_hl(0, "SignColumn", { bg = "#000000" })
-
-    vim.api.nvim_set_hl(0, "StatusLine", { bg = "#111111", fg = "#d0d0d0" })
-    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#050505", fg = "#606060" })
-
-    vim.api.nvim_set_hl(0, "Pmenu", { bg = "#111111", fg = "#d0d0d0" })
-    vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#303030", fg = "#ffffff" })
-
-    vim.api.nvim_set_hl(0, "Visual", { bg = "#303030" })
-    vim.api.nvim_set_hl(0, "Search", { bg = "#404040", fg = "#ffffff" })
-    vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ffffff", fg = "#000000" })
-  end,
-})
-
-vim.cmd.colorscheme("default")
-vim.cmd("doautocmd ColorScheme")
 
 ------------------------------------------------------------
 -- Keymaps
@@ -167,11 +140,29 @@ end
 
 require("lazy").setup({
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        transparent_background = true,
+        float = {
+          transparent = true,
+        },
+        term_colors = true,
+      })
+
+      vim.cmd.colorscheme("catppuccin")
+    end,
+  },
+
+  {
     "nvim-lualine/lualine.nvim",
     config = function()
       require("lualine").setup({
         options = {
-          theme = "auto",
+          theme = "catppuccin-mocha",
           globalstatus = true,
           icons_enabled = false,
           section_separators = "",
