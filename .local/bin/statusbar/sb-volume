@@ -5,7 +5,11 @@
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
-		1|2) setsid -f st -e pulsemixer ;;
+		1|2)
+			setsid st -e pulsemixer
+			pkill -RTMIN+10 dwmblocks
+			exit
+			;;
 	esac
 fi
 

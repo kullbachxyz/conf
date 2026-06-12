@@ -1,5 +1,17 @@
 #!/bin/sh
 
+cache="/tmp/statusbar-network"
+
+write_cache() {
+	printf '%s\n' "$1" >"$cache"
+}
+
+cached_output() {
+	if [ -r "$cache" ]; then
+		cat "$cache"
+	fi
+}
+
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
@@ -7,13 +19,23 @@ if [ -n "$btn" ]; then
 	esac
 fi
 
-iface=$(ip route show default 2>/dev/null | awk 'NR==1{print $5}')
+route=$(ip route show default 2>/dev/null)
+if [ $? -ne 0 ]; then
+	cached_output
+	exit 0
+fi
+
+iface=$(printf '%s\n' "$route" | awk 'NR==1{print $5}')
+
 if [ -n "$iface" ]; then
 	if [ -d "/sys/class/net/$iface/wireless" ]; then
-		printf '󰖩'
+		status='󰖩'
 	else
-		printf '󰈀'
+		status='󰈀'
 	fi
 else
-	printf '󰖪'
+	status='󰖪'
 fi
+
+write_cache "$status"
+printf '%s\n' "$status"
