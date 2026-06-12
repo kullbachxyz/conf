@@ -25,5 +25,16 @@ alias grep='grep --color=auto'
 # Dotfiles management
 alias conf='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
+# Remove junk folders from home
+case $- in
+  *i*)
+    for dir in "$HOME/thunderbird" "$HOME/omnissa-$USER"; do
+      if [ -d "$dir" ]; then
+        rm -rf -- "$dir"
+      fi
+    done
+    ;;
+esac
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
