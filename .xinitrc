@@ -21,6 +21,7 @@ fi
 
 xwallpaper --zoom ~/pics/wall.png
 
+picom &
 dunst &
 dwmblocks &
 
