@@ -173,6 +173,20 @@ require("lazy").setup({
   },
 
   {
+    "catgoose/nvim-colorizer.lua",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("colorizer").setup({
+        options = {
+          parsers = {
+            css = true,
+          },
+        },
+      })
+    end,
+  },
+
+  {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
     build = ":TSUpdate",
