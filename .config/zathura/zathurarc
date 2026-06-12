@@ -1,0 +1,89 @@
+# ~/.config/zathura/zathurarc
+# Catppuccin Mocha + practical defaults
+
+# General UI
+set window-title-basename true
+set selection-clipboard clipboard
+set statusbar-home-tilde true
+set guioptions s
+
+# Font
+set font "Iosevka Nerd Font Propo 10"
+
+# Page layout
+set adjust-open width
+set pages-per-row 1
+set first-page-column 1:1
+set vertical-center true
+set scroll-page-aware true
+set scroll-full-overlap 0.01
+set zoom-center true
+set link-zoom true
+
+# Smooth-ish navigation
+set scroll-step 80
+set scroll-hstep 80
+set zoom-step 10
+
+# Search
+set search-hadjust true
+set incremental-search true
+
+# Recolor PDFs
+# Toggle with Ctrl+r or i
+set recolor false
+set recolor-keephue true
+set recolor-reverse-video false
+
+# Catppuccin Mocha colors
+# Main background uses transparency via Picom.
+# PDF pages stay normal because recolor is false.
+set default-bg                  rgba(30,30,46,0.75)
+set render-loading-bg           rgba(30,30,46,0.75)
+
+# Keep statusbar solid
+set statusbar-bg                "#181825"
+set statusbar-fg                "#cdd6f4"
+
+set inputbar-bg                 "#181825"
+set inputbar-fg                 "#cdd6f4"
+
+set notification-bg             "#181825"
+set notification-fg             "#cdd6f4"
+set notification-error-bg       "#f38ba8"
+set notification-error-fg       "#1e1e2e"
+set notification-warning-bg     "#f9e2af"
+set notification-warning-fg     "#1e1e2e"
+
+set highlight-color             "#f9e2af"
+set highlight-active-color      "#cba6f7"
+
+set completion-bg               "#181825"
+set completion-fg               "#cdd6f4"
+set completion-highlight-bg     "#313244"
+set completion-highlight-fg     "#cdd6f4"
+set completion-group-bg         "#181825"
+set completion-group-fg         "#89b4fa"
+
+set recolor-lightcolor          "#1e1e2e"
+set recolor-darkcolor           "#cdd6f4"
+
+set render-loading-bg           rgba(30,30,46,0.75)
+set render-loading-fg           "#cdd6f4"
+
+set index-bg                    "#1e1e2e"
+set index-fg                    "#cdd6f4"
+set index-active-bg             "#313244"
+set index-active-fg             "#cdd6f4"
+
+# Good extra mappings
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map i recolor
+map p print
+map <C-p> print
+map D toggle_page_mode
+map <C-b> scroll half-up
+map <C-f> scroll half-down
