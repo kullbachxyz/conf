@@ -36,6 +36,8 @@ text/x-tex=editor.desktop
 text/xml=editor.desktop
 x-scheme-handler/http=browser.desktop
 x-scheme-handler/https=browser.desktop
-
-[Added Associations]
-image/jpeg=chromium.desktop;feh.desktop;
+image/jpeg=image.desktop
+image/jpg=image.desktop
+image/png=image.desktop
+image/gif=image.desktop
+image/bmp=image.desktop
