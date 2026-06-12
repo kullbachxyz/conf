@@ -1,6 +1,5 @@
 #!/bin/sh
 
-icon="󰅐"
 
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
@@ -9,4 +8,4 @@ if [ -n "$btn" ]; then
 	esac
 fi
 
-date "+%d %b %Y (%a) $icon %H:%M"
+printf "%s \n" "$(date "+%d %b %Y (%a) %H:%M")"
