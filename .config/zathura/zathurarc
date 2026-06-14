@@ -56,7 +56,7 @@ set notification-warning-bg     "#f9e2af"
 set notification-warning-fg     "#1e1e2e"
 
 set highlight-color             "#f9e2af"
-set highlight-active-color      "#cba6f7"
+set highlight-active-color      "#b4befe"
 
 set completion-bg               "#181825"
 set completion-fg               "#cdd6f4"

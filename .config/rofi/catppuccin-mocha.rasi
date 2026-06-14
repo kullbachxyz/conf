@@ -34,13 +34,13 @@
   selected-foreground: @text;
   urgent: @red;
   active: @green;
-  border-color: @surface1;
+  border-color: @lavender;
   transparent: #00000000;
 }
 
 window {
   width: 42em;
-  border: 1px;
+  border: 3px;
   border-color: @border-color;
   border-radius: 0;
   background-color: @background;

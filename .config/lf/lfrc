@@ -20,3 +20,4 @@ map gw cd ~/pics/walls
 map gm cd /mnt
 map zh set hidden!
 map zr set reverse!
+map bg $setbg "$f"
