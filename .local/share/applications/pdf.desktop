@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=PDF Viewer
-Icon=org.pwmt.zathura
-Exec=/usr/bin/zathura %U
-Terminal=false
