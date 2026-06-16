@@ -19,7 +19,7 @@ else
         --output "$INTERNAL" --mode 1920x1080 --primary
 fi
 
-xwallpaper --zoom ~/pics/wall.png
+setbg
 
 picom &
 unclutter &
