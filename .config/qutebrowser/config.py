@@ -147,4 +147,5 @@ c.colors.tabs.pinned.selected.even.fg = green
 c.colors.tabs.pinned.selected.even.bg = surface0
 
 # ── Web page ─────────────────────────────────────────────────────────────────
-c.colors.webpage.bg = base
+c.colors.webpage.bg                     = base
+c.colors.webpage.preferred_color_scheme = "dark"
