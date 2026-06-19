@@ -18,35 +18,35 @@ battery_icon() {
 
 	case "$status" in
 		Charging)
-			printf '󰂄'
+			printf '⚡'
 			return
 			;;
 		Full)
-			printf '󰁹'
+			printf '🔋'
 			return
 			;;
 	esac
 
 	if [ "$capacity" -ge 95 ]; then
-		printf '󰁹'
+		printf '🔋'
 	elif [ "$capacity" -ge 75 ]; then
-		printf '󰂁'
+		printf '🔋'
 	elif [ "$capacity" -ge 50 ]; then
-		printf '󰁿'
+		printf '🔋'
 	elif [ "$capacity" -ge 25 ]; then
-		printf '󰁾'
+		printf '🪫'
 	else
-		printf '󰂎'
+		printf '🪫'
 	fi
 }
 
 case $BLOCK_BUTTON in
-	3) notify-send "Battery module" "󰁹: full or 95%+
-󰂄: charging
-󰂁: 75%+
-󰁿: 50%+
-󰁾: 25%+
-󰂎: low
+	3) notify-send "Battery module" "🔋: full or 95%+
+⚡: charging
+🔋: 75%+
+🔋: 50%+
+🪫: 25%+
+🪫: low
 - Scroll to adjust brightness." ;;
 	4) brightnessctl set 10+ ;;
 	5) brightnessctl set 10- ;;

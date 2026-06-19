@@ -29,13 +29,13 @@ iface=$(printf '%s\n' "$route" | awk 'NR==1{print $5}')
 
 if [ -n "$iface" ]; then
 	if [ -d "/sys/class/net/$iface/wireless" ]; then
-		status='󰖩'
+		status='📶'
 	else
-		status='󰈀'
+		status='🌐'
 	fi
 else
-	status='󰖪'
+	status='❌'
 fi
 
-write_cache "$status"
-printf '%s\n' "$status"
+write_cache "$status "
+printf '%s\n' "$status "
