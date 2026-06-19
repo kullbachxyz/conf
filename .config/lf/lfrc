@@ -20,4 +20,5 @@ map gw cd ~/pics/walls
 map gm cd /mnt
 map zh set hidden!
 map zr set reverse!
+map X $extract "$fx" && lf -remote "send $id reload"
 map bg $setbg "$f"
