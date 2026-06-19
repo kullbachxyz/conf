@@ -1,0 +1,4 @@
+#!/bin/sh
+chosen=$(dmenu -l 15 -p "emoji:" < ~/.local/share/emojis)
+[ -z "$chosen" ] && exit
+printf '%s' "$chosen" | awk '{print $1}' | tr -d '\n' | xclip -selection clipboard
