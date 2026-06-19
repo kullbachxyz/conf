@@ -19,4 +19,4 @@ configuration {
     font: "Iosevka Nerd Font Propo 12";
 }
 
-@theme "catppuccin-mocha.rasi"
+@theme "~/.config/rofi/dark.rasi"

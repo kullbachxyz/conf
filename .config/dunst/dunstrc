@@ -12,19 +12,19 @@ font = Iosevka Nerd Font Propo 13
 format = "<b>%s</b>\n%b"
 
 [urgency_low]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
-frame_color = "#94e2d5"
+background = "#1c1c1c"
+foreground = "#d8d8d8"
+frame_color = "#555555"
 timeout = 3
 
 [urgency_normal]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
-frame_color = "#b4befe"
+background = "#1c1c1c"
+foreground = "#d8d8d8"
+frame_color = "#888888"
 timeout = 5
 
 [urgency_critical]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
-frame_color = "#f38ba8"
+background = "#1c1c1c"
+foreground = "#d8d8d8"
+frame_color = "#cc4444"
 timeout = 10
