@@ -1,0 +1,58 @@
+#!/bin/sh
+# linkhandler - open files and URLs with the right program
+
+url="${1:-$(xclip -o -selection clipboard 2>/dev/null)}"
+[ -z "$url" ] && exit 1
+
+# Strip file:// for local paths
+case "$url" in
+	file://*) url="${url#file://}" ;;
+esac
+
+# Local files — detect by MIME type
+case "$url" in
+	/*)
+		mime="$(file --dereference --brief --mime-type -- "$url" 2>/dev/null)"
+		case "$mime" in
+			image/*)		setsid nsxiv -a "$url" >/dev/null 2>&1 & ;;
+			video/*|audio/*)	setsid mpv "$url" >/dev/null 2>&1 & ;;
+			application/pdf)	setsid zathura "$url" >/dev/null 2>&1 & ;;
+			text/html)		setsid "$BROWSER" "$url" >/dev/null 2>&1 & ;;
+			text/*)			${TERMINAL:-st} -e ${EDITOR:-nvim} "$url" & ;;
+			*)			xdg-open "$url" >/dev/null 2>&1 & ;;
+		esac
+		exit 0 ;;
+esac
+
+# Remote URLs — by domain or extension
+case "$url" in
+	# Video platforms → mpv via yt-dlp
+	*youtube.com/watch*|*youtu.be*|*yewtu.be*|\
+	*vimeo.com*|*twitch.tv*|*dailymotion.com*|\
+	*odysee.com*|*bitchute.com*|*rumble.com*|\
+	*peertube*|*invidious*)
+		setsid mpv --quiet "$url" >/dev/null 2>&1 & ;;
+
+	# Video/audio file extensions
+	*.mkv|*.avi|*.mp4|*.wmv|*.mov|*.webm|*.flv|*.m4v|*.mpeg|*.mpg|\
+	*.mp3|*.flac|*.ogg|*.opus|*.m4a|*.wav)
+		setsid mpv --quiet "$url" >/dev/null 2>&1 & ;;
+
+	# Images — download to tmp then open
+	*.png|*.jpg|*.jpeg|*.gif|*.webp|*.bmp|*.tif|*.tiff|*.svg)
+		tmp="${TMPDIR:-/tmp}/$(basename "$url")"
+		curl -sL "$url" > "$tmp" && setsid nsxiv "$tmp" >/dev/null 2>&1 & ;;
+
+	# PDFs — download to tmp then open
+	*.pdf)
+		tmp="${TMPDIR:-/tmp}/$(basename "$url")"
+		curl -sL "$url" > "$tmp" && setsid zathura "$tmp" >/dev/null 2>&1 & ;;
+
+	# Magnet links
+	magnet:*)
+		xdg-open "$url" >/dev/null 2>&1 & ;;
+
+	# Default → browser
+	*)
+		setsid "$BROWSER" "$url" >/dev/null 2>&1 & ;;
+esac

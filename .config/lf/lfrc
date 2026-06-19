@@ -7,7 +7,7 @@ set previewer '~/.config/lf/scope'
 cmd mkdir $mkdir -p "$@"
 
 # Bindings
-cmd open &xdg-open $f
+cmd open $linkhandler "$f"
 map c cut
 map H cd ~
 map gh cd /home/ph
