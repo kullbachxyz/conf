@@ -36,5 +36,24 @@ case $- in
     ;;
 esac
 
+# lf/lfub: cd to last directory on exit
+_lf_cd() {
+  local cmd="$1" tmp dir
+  shift
+  tmp=$(mktemp)
+  command "$cmd" -last-dir-path="$tmp" "$@"
+  if [ -f "$tmp" ]; then
+    dir=$(cat "$tmp")
+    rm -f "$tmp"
+    [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+  fi
+}
+lf()   { _lf_cd lf   "$@"; }
+lfub() { _lf_cd lfub "$@"; }
+
+# History search: Up/Down arrow searches by prefix already typed
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
