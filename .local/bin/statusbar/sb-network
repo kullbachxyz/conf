@@ -37,5 +37,5 @@ else
 	status='❌'
 fi
 
-write_cache "$status "
-printf '%s\n' "$status "
+write_cache "$status"
+printf '%s\n' "$status"

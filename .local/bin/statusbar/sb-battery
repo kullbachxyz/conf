@@ -1,81 +1,29 @@
 #!/bin/sh
 
-cache="/tmp/statusbar-battery"
-
-write_cache() {
-	printf '%s\n' "$1" >"$cache"
-}
-
-cached_output() {
-	if [ -r "$cache" ]; then
-		cat "$cache"
-	fi
-}
-
-battery_icon() {
-	capacity=$1
-	status=$2
-
-	case "$status" in
-		Charging)
-			printf '⚡'
-			return
-			;;
-		Full)
-			printf '🔋'
-			return
-			;;
-	esac
-
-	if [ "$capacity" -ge 95 ]; then
-		printf '🔋'
-	elif [ "$capacity" -ge 75 ]; then
-		printf '🔋'
-	elif [ "$capacity" -ge 50 ]; then
-		printf '🔋'
-	elif [ "$capacity" -ge 25 ]; then
-		printf '🪫'
-	else
-		printf '🪫'
-	fi
-}
-
 case $BLOCK_BUTTON in
-	3) notify-send "Battery module" "🔋: full or 95%+
-⚡: charging
-🔋: 75%+
-🔋: 50%+
-🪫: 25%+
-🪫: low
+	3) notify-send "🔋 Battery module" "🔋: discharging
+🛑: not charging
+♻️: stagnant charge
+🔌: charging
+⚡: charged
+❗: battery very low!
 - Scroll to adjust brightness." ;;
 	4) brightnessctl set 10+ ;;
 	5) brightnessctl set 10- ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-batteries=""
-
-for battery in /sys/class/power_supply/BAT*; do
-	[ -e "$battery/status" ] || continue
-	[ -e "$battery/capacity" ] || continue
-
-	status=$(cat "$battery/status" 2>/dev/null) || continue
-	capacity=$(cat "$battery/capacity" 2>/dev/null) || continue
-
-	case "$status" in
-		Full|Discharging|Charging|Unknown) : ;;
-		"Not charging") : ;;
-		*) continue ;;
+for battery in /sys/class/power_supply/BAT?*; do
+	[ -n "${capacity+x}" ] && printf " "
+	case "$(cat "$battery/status" 2>&1)" in
+		"Full") status="⚡" ;;
+		"Discharging") status="🔋" ;;
+		"Charging") status="🔌" ;;
+		"Not charging") status="🛑" ;;
+		"Unknown") status="♻️" ;;
+		*) exit 1 ;;
 	esac
-
-	icon=$(battery_icon "$capacity" "$status")
-	[ -n "$batteries" ] && batteries="$batteries "
-	batteries="${batteries}${icon} ${capacity}%"
-done
-
-if [ -n "$batteries" ]; then
-	write_cache "$batteries"
-	printf '%s\n' "$batteries"
-else
-	cached_output
-fi
+	capacity="$(cat "$battery/capacity" 2>&1)"
+	[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
+	printf "%s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+done && printf "\\n"
