@@ -16,6 +16,11 @@ btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
 		1|2) setsid -f st -e wlctl ;;
+    	3) notify-send "🌐 Internet module" "\- Click to connect
+❌: wifi disabled
+📶: wifi connection working
+🌐: ethernet working
+" ;;
 	esac
 fi
 
