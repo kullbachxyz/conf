@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if echo "$1" | grep -q "https*://\S\+\.[A-Za-z]\+\S*"; then
+	url="$1"
+else
+	url="$(grep -Eom1 '<[^>]+(rel="self"|application/[a-z]+\+xml)[^>]+>' "$1" |
+		grep -o "https?://[^\" ]")"
+
+	echo "$url" | grep -q "https*://\S\+\.[A-Za-z]\+\S*" ||
+		{ notify-send "That doesn't look like a full URL." ; exit 1; }
+fi
+
+RSSFILE="${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls"
+
+if awk '{print $1}' "$RSSFILE" | grep -q "^$url$"; then
+	notify-send "You already have this RSS feed."
+	exit 0
+fi
+
+# Fetch feed and extract title (handles CDATA and plain text)
+feed_title="$(curl -sL --max-time 10 "$url" |
+	grep -m1 '<title' |
+	sed 's/.*<title[^>]*>//
+	     s/<\/title.*//
+	     s/<!\[CDATA\[//
+	     s/\]\]>//
+	     s/^[[:space:]]*//
+	     s/[[:space:]]*$//')"
+
+# Decode common HTML entities
+feed_title="$(printf '%s' "$feed_title" |
+	sed 's/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g; s/&quot;/"/g; s/&#39;/'"'"'/g')"
+
+read -e -r -i "$feed_title" -p "Title: " feed_title
+
+if [ -n "$feed_title" ]; then
+	printf '%s "~%s"\n' "$url" "$feed_title" >> "$RSSFILE"
+else
+	printf '%s\n' "$url" >> "$RSSFILE"
+fi
+
+notify-send "RSS feed added${feed_title:+: $feed_title}"
