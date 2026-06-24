@@ -23,10 +23,10 @@ bind-key U show-urls
 bind-key x pb-delete
 
 color listnormal cyan default
-color listfocus black yellow standout bold
+color listfocus color11 black bold
 color listnormal_unread blue default
-color listfocus_unread yellow default bold
-color info red black bold
+color listfocus_unread color11 black bold
+color info color11 black bold
 color article white default bold
 
 browser linkhandler
@@ -40,7 +40,7 @@ highlight all "---.*---" yellow
 highlight feedlist ".*(0/0))" black
 highlight article "(^Feed:.*|^Title:.*|^Author:.*)" cyan default bold
 highlight article "(^Link:.*|^Date:.*)" default default
-highlight article "https?://[^ ]+" green default
+highlight article "https?://[^ ]+" color12 default
 highlight article "^(Title):.*$" blue default
 highlight article "\\[[0-9][0-9]*\\]" magenta default bold
 highlight article "\\[image\\ [0-9]+\\]" green default bold
