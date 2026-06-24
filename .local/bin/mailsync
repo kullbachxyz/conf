@@ -1,7 +1,15 @@
 #!/bin/sh
+LOCKFILE=/tmp/mailsync-running
+
+touch "$LOCKFILE"
+pkill -RTMIN+14 dwmblocks
+
 notify-send "📬 mailsync" "Sync läuft..." -i mail-message
 if mbsync -a && notmuch new; then
     notify-send "📬 mailsync" "Sync fertig" -i mail-message
 else
     notify-send "📬 mailsync" "Sync fehlgeschlagen" -i dialog-error -u critical
 fi
+
+rm -f "$LOCKFILE"
+pkill -RTMIN+14 dwmblocks
