@@ -1,3 +1,8 @@
 #!/bin/sh
-[ -n "$1" ] && cp "$1" "$HOME/.local/share/bg"
+if [ -n "$1" ]; then
+	case "${1##*.}" in
+		webp|WEBP) magick "$1" "$HOME/.local/share/bg.png" && ln -sf "$HOME/.local/share/bg.png" "$HOME/.local/share/bg" ;;
+		*) cp "$1" "$HOME/.local/share/bg" ;;
+	esac
+fi
 xwallpaper --zoom "$HOME/.local/share/bg"
