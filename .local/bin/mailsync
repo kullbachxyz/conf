@@ -1,15 +1,29 @@
 #!/bin/sh
 LOCKFILE=/tmp/mailsync-running
 
-touch "$LOCKFILE"
-pkill -RTMIN+14 dwmblocks
+SILENT=0
+[ "$1" = "-s" ] && SILENT=1
 
-notify-send "📬 mailsync" "Sync läuft..." -i mail-message
-if mbsync -a && notmuch new; then
-    notify-send "📬 mailsync" "Sync fertig" -i mail-message
+touch "$LOCKFILE"
+pkill -RTMIN+14 dwmblocks 2>/dev/null
+
+if [ "$SILENT" -eq 0 ]; then
+    notify-send "📬 mailsync" "Sync läuft..." -i mail-message
+fi
+
+if [ "$SILENT" -eq 1 ]; then
+    mbsync -a > /dev/null 2>&1 && notmuch new > /dev/null 2>&1
+    RESULT=$?
+else
+    mbsync -a && notmuch new
+    RESULT=$?
+fi
+
+if [ "$RESULT" -eq 0 ]; then
+    [ "$SILENT" -eq 0 ] && notify-send "📬 mailsync" "Sync fertig" -i mail-message
 else
     notify-send "📬 mailsync" "Sync fehlgeschlagen" -i dialog-error -u critical
 fi
 
 rm -f "$LOCKFILE"
-pkill -RTMIN+14 dwmblocks
+pkill -RTMIN+14 dwmblocks 2>/dev/null
