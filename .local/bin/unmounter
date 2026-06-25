@@ -19,12 +19,23 @@ chosen="$(echo "$allunmountable" | dmenu -i -p "Unmount which drive?")"
 chosen="${chosen%% *}"
 test -n "$chosen"
 
-sudo -A umount -l "/${chosen#*/}"
+mountpoint="/${chosen#*/}"
+
+# Remember block device before unmounting (empty for MTP phones).
+device="$(lsblk -rno NAME,MOUNTPOINT | awk -v mp="$mountpoint" '$2==mp{print "/dev/"$1}')"
+
+sudo -A umount -l "$mountpoint"
 notify-send "Device unmounted." "$chosen has been unmounted."
 
-# Close the chosen drive if decrypted.
-cryptid="$(echo "$lsblkoutput" | grep "/${chosen#*/}$")"
+# Close the chosen drive if it was a decrypted LUKS device.
+cryptid="$(echo "$lsblkoutput" | grep "${mountpoint}$")"
 cryptid="${cryptid%% *}"
-test -b /dev/mapper/"${cryptid##*/}"
-sudo -A cryptsetup close "$cryptid"
-notify-send "🔒Device dencryption closed." "Drive is now securely locked again."
+if test -b "/dev/mapper/${cryptid##*/}"; then
+    sudo -A cryptsetup close "$cryptid"
+    notify-send "🔒Device encryption closed." "Drive is now securely locked again."
+fi
+
+# Power off the physical device (non-fatal, skipped for MTP phones).
+if [ -n "$device" ]; then
+    udisksctl power-off -b "$device" 2>/dev/null || true
+fi
