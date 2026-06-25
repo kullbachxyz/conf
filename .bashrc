@@ -15,7 +15,7 @@ PROMPT_COMMAND='history -a; history -n'
 
 [ -f ~/.profile ] && . ~/.profile
 
-PS1='[\u@\h \W]\$ '
+PS1='\[\e[1;31m\][\[\e[1;33m\]\u\[\e[1;32m\]@\[\e[1;34m\]\h \[\e[1;35m\]\W\[\e[1;31m\]]\[\e[1;37m\]\$\[\e[0m\] '
 
 # Aliases
 alias vim='nvim'
