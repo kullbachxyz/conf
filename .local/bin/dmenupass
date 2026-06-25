@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Used as SUDO_ASKPASS — prompts for password via dmenu.
+
+dmenu -fn Monospace-18 -P -p "$1" <&- && echo
