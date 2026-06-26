@@ -10,6 +10,12 @@ if [ -n "$btn" ]; then
 			pkill -RTMIN+10 dwmblocks
 			exit
 			;;
+		3) notify-send "🔊 Volume module" "Shows current volume level.
+- Left click opens pulsemixer.
+🔇: muted
+🔈: low
+🔉: medium
+🔊: high" ;;
 	esac
 fi
 
