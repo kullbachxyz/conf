@@ -1,0 +1,8 @@
+#!/bin/sh
+if mpc status 2>/dev/null | grep -q "\[playing\]"; then
+    echo "🎵 $(mpc current 2>/dev/null)"
+    exit 0
+fi
+out=$(playerctl -a -f "{{status}} {{xesam:artist}} — {{xesam:title}}" metadata 2>/dev/null \
+    | grep "^Playing " | head -1 | cut -d' ' -f2-)
+[ -n "$out" ] && echo "🎵 $out"
