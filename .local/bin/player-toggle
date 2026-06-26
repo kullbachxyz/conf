@@ -2,29 +2,33 @@
 STATE="$HOME/.local/share/last-player"
 
 mpd_playing()  { mpc status 2>/dev/null | grep -q "\[playing\]"; }
+mpd_paused()   { mpc status 2>/dev/null | grep -qE "\[playing\]|\[paused\]"; }
 abpl_playing() { [ "$(playerctl -p abpl status 2>/dev/null)" = "Playing" ]; }
+abpl_running() { playerctl -p abpl status 2>/dev/null | grep -qE "Playing|Paused"; }
 
 mpd=0; abpl=0
 mpd_playing  && mpd=1
 abpl_playing && abpl=1
 
+# Beide spielen → beide pausieren
 if [ $mpd -eq 1 ] && [ $abpl -eq 1 ]; then
-    # Beide spielen: beide pausieren, letzten merken bleibt
     mpc pause
     playerctl -p abpl pause
     exit 0
 fi
 
-if [ $mpd -eq 1 ]; then
-    mpc toggle; echo mpd > "$STATE"; exit 0
-fi
+# Einer spielt → den togglen
+if [ $mpd -eq 1 ];  then mpc toggle;                   echo mpd  > "$STATE"; exit 0; fi
+if [ $abpl -eq 1 ]; then playerctl -p abpl play-pause; echo abpl > "$STATE"; exit 0; fi
 
-if [ $abpl -eq 1 ]; then
+# Beide pausiert: abpl nur wenn explizit getracked und läuft
+if [ "$(cat "$STATE" 2>/dev/null)" = "abpl" ] && abpl_running; then
     playerctl -p abpl play-pause; echo abpl > "$STATE"; exit 0
 fi
 
-# Beide pausiert — letzten aktiven nehmen
-case "$(cat "$STATE" 2>/dev/null)" in
-    abpl) playerctl -p abpl play-pause; echo abpl > "$STATE" ;;
-    *)    mpc toggle;                   echo mpd  > "$STATE" ;;
-esac
+# MPD primär
+if mpd_paused; then
+    mpc toggle; echo mpd > "$STATE"; exit 0
+fi
+
+notify-send "player-toggle" "Kein Player gefunden" -u low -t 2000
