@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# Battery monitor — sends notifications at low thresholds (discharging only).
+# Run every minute via cron: * * * * * /home/ph/.local/bin/batterynotify
+
+export DBUS_SESSION_BUS_ADDRESS="$(strings /proc/$(pgrep -u "$USER" dunst | head -1)/environ | grep ^DBUS_SESSION_BUS_ADDRESS | cut -d= -f2-)"
+
+BAT=/sys/class/power_supply/BAT1
+STATEFILE=/tmp/battery_notified
+
+capacity="$(cat "$BAT/capacity")"
+status="$(cat "$BAT/status")"
+
+case "$status" in
+	Full)
+		last="$(cat "$STATEFILE" 2>/dev/null)"
+		if [ "$last" != "full" ]; then
+			notify-send -u low "🔋 Akku voll" "${capacity}%"
+			echo "full" > "$STATEFILE"
+		fi
+		exit 0 ;;
+	Charging)
+		rm -f "$STATEFILE"
+		exit 0 ;;
+	Discharging) ;;
+	*) exit 0 ;;
+esac
+
+# Determine active warning threshold.
+if [ "$capacity" -le 5 ]; then
+	level=5; urgency=critical
+elif [ "$capacity" -le 10 ]; then
+	level=10; urgency=critical
+elif [ "$capacity" -le 20 ]; then
+	level=20; urgency=normal
+else
+	rm -f "$STATEFILE"
+	exit 0
+fi
+
+# Don't repeat the same threshold notification.
+last="$(cat "$STATEFILE" 2>/dev/null)"
+[ "$last" = "$level" ] && exit 0
+
+# Estimate time remaining from current draw.
+current_now="$(cat "$BAT/current_now" 2>/dev/null)"
+charge_now="$(cat "$BAT/charge_now" 2>/dev/null)"
+if [ -n "$current_now" ] && [ "$current_now" -gt 0 ]; then
+	minutes=$(( charge_now * 60 / current_now ))
+	timestr="noch ca. $(( minutes / 60 ))h $(( minutes % 60 ))m"
+else
+	timestr=""
+fi
+
+notify-send -u "$urgency" "🪫 Akku: ${capacity}%" "$timestr"
+echo "$level" > "$STATEFILE"
