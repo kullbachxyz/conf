@@ -63,6 +63,28 @@ zle -N down-line-or-beginning-search
 bindkey '^[[A' up-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
 
+# Vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Cursor shape: block in normal mode, beam in insert mode
+zle-keymap-select() {
+  case $KEYMAP in
+    vicmd)      echo -ne '\e[2 q';;
+    viins|main) echo -ne '\e[6 q';;
+  esac
+}
+zle -N zle-keymap-select
+
+zle-line-init() {
+  zle -K viins
+  echo -ne '\e[6 q'
+}
+zle -N zle-line-init
+
+echo -ne '\e[6 q'
+preexec() { echo -ne '\e[6 q'; }
+
 # Plugins (must be last — syntax-highlighting especially)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
