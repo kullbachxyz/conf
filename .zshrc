@@ -11,8 +11,15 @@ setopt SHARE_HISTORY        # write + re-read after each command (replaces PROMP
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 
-# Completion (zsh-completions are in site-functions, picked up automatically)
-autoload -Uz compinit && compinit
+# Completion — rebuild dump only if it's older than 24h
+autoload -Uz compinit
+_zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+if [[ -n "$_zcompdump"(#qN.mh+24) ]]; then
+  compinit -d "$_zcompdump"
+else
+  compinit -C -d "$_zcompdump"
+fi
+unset _zcompdump
 
 # Source profile (env vars, PATH, startx autolaunch)
 [ -f ~/.profile ] && . ~/.profile
