@@ -6,25 +6,33 @@ mpd_paused()   { mpc status 2>/dev/null | grep -qE "\[playing\]|\[paused\]"; }
 abpl_playing() { [ "$(playerctl -p abpl status 2>/dev/null)" = "Playing" ]; }
 abpl_running() { playerctl -p abpl status 2>/dev/null | grep -qE "Playing|Paused"; }
 
-mpd=0; abpl=0
-mpd_playing  && mpd=1
-abpl_playing && abpl=1
+browser_player() { playerctl -l 2>/dev/null | grep -Em1 "^(chromium|firefox|brave|vivaldi)"; }
+browser_playing() { p=$(browser_player); [ -n "$p" ] && [ "$(playerctl -p "$p" status 2>/dev/null)" = "Playing" ]; }
+browser_running() { p=$(browser_player); [ -n "$p" ] && playerctl -p "$p" status 2>/dev/null | grep -qE "Playing|Paused"; }
 
-# Beide spielen → beide pausieren
-if [ $mpd -eq 1 ] && [ $abpl -eq 1 ]; then
-    mpc pause
-    playerctl -p abpl pause
+mpd=0; abpl=0; browser=0
+mpd_playing     && mpd=1
+abpl_playing    && abpl=1
+browser_playing && browser=1
+
+# Alle/mehrere spielen → alle pausieren
+if [ $((mpd + abpl + browser)) -gt 1 ]; then
+    [ $mpd -eq 1 ]     && mpc pause
+    [ $abpl -eq 1 ]    && playerctl -p abpl pause
+    [ $browser -eq 1 ] && playerctl -p "$(browser_player)" pause
     exit 0
 fi
 
 # Einer spielt → den togglen
-if [ $mpd -eq 1 ];  then mpc toggle;                   echo mpd  > "$STATE"; exit 0; fi
-if [ $abpl -eq 1 ]; then playerctl -p abpl play-pause; echo abpl > "$STATE"; exit 0; fi
+if [ $mpd -eq 1 ];     then mpc toggle;                          echo mpd     > "$STATE"; exit 0; fi
+if [ $abpl -eq 1 ];    then playerctl -p abpl play-pause;        echo abpl    > "$STATE"; exit 0; fi
+if [ $browser -eq 1 ]; then playerctl -p "$(browser_player)" play-pause; echo browser > "$STATE"; exit 0; fi
 
-# Beide pausiert: abpl nur wenn explizit getracked und läuft
-if [ "$(cat "$STATE" 2>/dev/null)" = "abpl" ] && abpl_running; then
-    playerctl -p abpl play-pause; echo abpl > "$STATE"; exit 0
-fi
+# Alle pausiert: letzten getrackten Player fortsetzen
+case "$(cat "$STATE" 2>/dev/null)" in
+    abpl)    abpl_running    && { playerctl -p abpl play-pause;               echo abpl    > "$STATE"; exit 0; } ;;
+    browser) browser_running && { playerctl -p "$(browser_player)" play-pause; echo browser > "$STATE"; exit 0; } ;;
+esac
 
 # MPD primär
 if mpd_paused; then
