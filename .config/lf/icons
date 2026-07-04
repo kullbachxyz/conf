@@ -50,6 +50,8 @@ su	🔑
 *.ps	📕
 *.pdf	📕
 *.djvu	📕
+*.odt	📝
+*.ods	📊
 *.tex	📄
 *.ms	📄
 *.mom	📄

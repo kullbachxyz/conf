@@ -52,9 +52,12 @@ bindsym $mod+shift+n exec $term -e newsboat
 bindsym $mod+shift+w exec $term -e wlctl
 bindsym $mod+shift+b exec $term -e bluetui
 bindsym $mod+m exec $term -e ncmpcpp
+bindsym $mod+a exec $term -e abpl
 bindsym $mod+u exec dmenuunicode
 bindsym $mod+c exec ~/.local/bin/horizon-client
 bindsym $mod+o exec ~/.local/bin/passmenu
+bindsym $mod+shift+o exec keepassxc
+bindsym $mod+shift+p exec $term -e podsync
 bindsym $mod+shift+s exec maimpick
 bindsym Print exec --no-startup-id bash -c 'maim pic-full-$(date +%y%m%d-%H%M-%S).png'
 bindsym shift+Print exec maimpick

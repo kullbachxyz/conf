@@ -41,3 +41,4 @@ vim.opt.scrolloff = 8
 vim.opt.undofile = true
 vim.opt.swapfile = false
 
+
