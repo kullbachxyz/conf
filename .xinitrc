@@ -16,11 +16,4 @@ else
         --output "$INTERNAL" --mode 1920x1080 --primary
 fi
 
-setbg &       # wallpaper
-remaps &      # keyboard remaps
-picom &       # compositor
-unclutter &   # hide idle cursor
-dunst &       # notifications
-dwmblocks &   # status bar
-
-exec dbus-launch --exit-with-session dwm
+exec dbus-launch --exit-with-session i3

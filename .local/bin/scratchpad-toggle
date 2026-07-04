@@ -1,0 +1,5 @@
+#!/bin/sh
+# Show scratchpad st if it exists, otherwise spawn one
+if ! i3-msg '[title="scratchpad-st"] scratchpad show' 2>/dev/null | grep -q '"success":true'; then
+    st -t scratchpad-st &
+fi
