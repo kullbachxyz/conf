@@ -1,0 +1,19 @@
+#!/bin/sh
+# dmenuhandler - dmenu prompt for URL actions, called by newsboat macro d
+
+url="${1:-$(xclip -o -selection clipboard 2>/dev/null)}"
+[ -z "$url" ] && exit 1
+
+choice=$(printf "linkhandler (auto)\nbrowser\nmpv (video)\nmpv (audio only)\ndownload video\ndownload audio\nopen in lynx\ncopy to clipboard" \
+    | dmenu -i -p "$(echo "$url" | cut -c1-60)")
+
+case "$choice" in
+    "linkhandler (auto)")   linkhandler "$url" ;;
+    "browser")              setsid -f "$BROWSER" "$url" >/dev/null 2>&1 ;;
+    "mpv (video)")          setsid -f mpv --quiet "$url" >/dev/null 2>&1 ;;
+    "mpv (audio only)")     setsid -f mpv --no-video --quiet "$url" >/dev/null 2>&1 ;;
+    "download video")       setsid -f yt-dlp --embed-metadata -ic --restrict-filenames "$url" >/dev/null 2>&1 ;;
+    "download audio")       setsid -f yt-dlp --embed-metadata -xic --restrict-filenames "$url" >/dev/null 2>&1 ;;
+    "open in lynx")         ${TERMINAL:-st} -e lynx "$url" ;;
+    "copy to clipboard")    echo "$url" | xclip -r -sel c ;;
+esac
