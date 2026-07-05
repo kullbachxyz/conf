@@ -16,4 +16,4 @@ else
         --output "$INTERNAL" --mode 1920x1080 --primary
 fi
 
-exec dbus-launch --exit-with-session i3
+exec i3

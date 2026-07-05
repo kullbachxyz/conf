@@ -12,6 +12,7 @@ exec --no-startup-id remaps
 exec --no-startup-id picom
 exec --no-startup-id unclutter
 exec --no-startup-id dunst
+exec --no-startup-id nextcloud --background
 exec_always --no-startup-id polybar --reload
 exec_always --no-startup-id autotiling
 
@@ -44,7 +45,7 @@ bindsym $mod+shift+x exec i3-msg exit
 bindsym $mod+shift+BackSpace exec sysact
 
 # --- Applications ---
-bindsym $mod+e exec $term -e neomutt
+bindsym $mod+e exec thunderbird
 bindsym $mod+shift+e exec $term -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook
 bindsym $mod+r exec $term -e lfub
 bindsym $mod+shift+r exec $term -e htop
@@ -139,13 +140,13 @@ bindsym $mod+shift+Right move container to output right
 bindsym $mod+period exec mpc next
 bindsym $mod+comma exec mpc prev
 bindsym $mod+p exec player-toggle
-bindsym $mod+plus exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-bindsym $mod+shift+plus exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+
+bindsym $mod+plus exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym $mod+shift+plus exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 15%+
 bindsym $mod+minus exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym $mod+shift+minus exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-
 bindsym $mod+shift+m exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioPlay exec player-toggle
 bindsym XF86AudioPause exec player-toggle

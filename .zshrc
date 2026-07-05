@@ -31,6 +31,13 @@ PROMPT='%B%F{red}[%F{yellow}%n%F{green}@%F{blue}%m %F{magenta}%1~%F{red}]%F{whit
 alias vim='nvim'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+passf() {
+    local name
+    name=$(find "${PASSWORD_STORE_DIR:-$HOME/.password-store}" -name "*.gpg" \
+        | sed "s|${PASSWORD_STORE_DIR:-$HOME/.password-store}/||;s|\.gpg$||" \
+        | sort | fzf --height 40% --reverse)
+    [ -n "$name" ] && pass show "$name" | head -1 | xclip -selection clipboard && echo "Copied: $name"
+}
 
 # Dotfiles management
 alias conf='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
