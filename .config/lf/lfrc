@@ -18,6 +18,8 @@ map gg top
 map G bottom
 map gw cd ~/pics/walls
 map gm cd /mnt
+map gd cd ~/dl
+map gb cd ~/books
 map zh set hidden!
 map zr set reverse!
 map X $extract "$fx" && lf -remote "send $id reload"
