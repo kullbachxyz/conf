@@ -8,4 +8,7 @@ export XDG_SESSION_TYPE=x11
 export QT_QPA_PLATFORMTHEME=qt6ct
 export CALIBRE_USE_SYSTEM_THEME=1
 
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=24
+
 remaps
