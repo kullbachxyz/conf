@@ -29,4 +29,12 @@ fi
 # Set a normal cursor for the root window / bar (avoids the huge X core cursor)
 xsetroot -cursor_name left_ptr
 
-exec i3
+# Autostart
+setbg &
+picom &
+unclutter &
+dunst &
+nextcloud --background &
+dwmblocks &
+
+exec dwm
