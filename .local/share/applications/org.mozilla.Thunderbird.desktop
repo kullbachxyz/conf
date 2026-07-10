@@ -1,0 +1,25 @@
+[Desktop Entry]
+Name=Thunderbird
+Comment=Send and receive mail with Thunderbird
+Comment[de]=E-Mails und Nachrichten mit Thunderbird lesen und schreiben
+GenericName=Mail Client
+GenericName[de]=E-Mail-Anwendung
+Exec=/home/ph/.local/bin/thunderbird %u
+Terminal=false
+Type=Application
+Icon=org.mozilla.Thunderbird
+Categories=Network;Email;
+MimeType=message/rfc822;x-scheme-handler/mailto;text/calendar;text/vcard;text/x-vcard;x-scheme-handler/webcal;x-scheme-handler/webcals;x-scheme-handler/mid;
+StartupNotify=true
+StartupWMClass=thunderbird
+Actions=ComposeMessage;OpenAddressBook;
+
+[Desktop Action ComposeMessage]
+Name=Write new message
+Name[de]=Neue Nachricht verfassen
+Exec=/home/ph/.local/bin/thunderbird -compose
+
+[Desktop Action OpenAddressBook]
+Name=Open address book
+Name[de]=Adressbuch öffnen
+Exec=/home/ph/.local/bin/thunderbird -addressbook

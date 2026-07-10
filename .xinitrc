@@ -3,10 +3,11 @@ if [ -f "$HOME/.xprofile" ]; then
     . "$HOME/.xprofile"
 fi
 
-# Mirror internal display onto external monitor, scaling to match its resolution
+# Get displays
 INTERNAL="eDP-1"
 EXTERNAL="$(xrandr --query | awk '$2 == "connected" && $1 != "eDP-1" { print $1; exit }')"
 
+# Mirror internal display onto external monitor, scaling to match its resolution
 # if [ -n "$EXTERNAL" ]; then
 #     xrandr \
 #         --output "$EXTERNAL" --mode 2560x1440 --primary \
@@ -34,6 +35,7 @@ setbg &
 picom &
 unclutter &
 dunst &
+keepassxc &
 nextcloud --background &
 dwmblocks &
 

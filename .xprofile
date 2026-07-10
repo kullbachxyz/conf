@@ -1,6 +1,9 @@
 export PIPEWIRE_RUNTIME_DIR=/run/user/$(id -u)
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
+# SSH-Agent (systemd --user ssh-agent.socket); KeePassXC laedt Keys hier hinein
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 export XDG_CURRENT_DESKTOP=dwm
 export XDG_SESSION_DESKTOP=dwm
 export XDG_SESSION_TYPE=x11

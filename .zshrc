@@ -16,6 +16,7 @@ autoload -Uz compinit
 _zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 if [[ -n "$_zcompdump"(#qN.mh+24) ]]; then
   compinit -d "$_zcompdump"
+  touch "$_zcompdump"          # reset the 24h window, sonst läuft jede Shell im langsamen Zweig
 else
   compinit -C -d "$_zcompdump"
 fi
@@ -41,12 +42,6 @@ passf() {
 
 # Dotfiles management
 alias conf='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
-# Remove junk folders from home
-for dir in "$HOME/thunderbird" "$HOME/omnissa-$USER"; do
-  [[ -d "$dir" ]] && rm -rf -- "$dir"
-done
-unset dir
 
 # lf/lfub: cd to last directory on exit
 _lf_cd() {
@@ -89,7 +84,7 @@ zle-line-init() {
 }
 zle -N zle-line-init
 
-echo -ne '\e[6 q'
+# nach jedem Kommando zurück auf Beam-Cursor
 preexec() { echo -ne '\e[6 q'; }
 
 # Plugins (must be last — syntax-highlighting especially)
