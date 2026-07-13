@@ -30,6 +30,10 @@ fi
 # Set a normal cursor for the root window / bar (avoids the huge X core cursor)
 xsetroot -cursor_name left_ptr
 
+# Export X session vars into the D-Bus/systemd --user environment so
+# xdg-desktop-portal-gtk can open the display (needed for save/download dialogs)
+dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+
 # Autostart
 setbg &
 picom &
@@ -38,5 +42,6 @@ dunst &
 keepassxc &
 nextcloud --background &
 dwmblocks &
+redshift -l 51:7 &
 
 exec dwm
