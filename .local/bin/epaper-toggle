@@ -1,0 +1,21 @@
+#!/bin/sh
+# Toggle an e-paper (grayscale) look on/off by restarting picom
+# with or without the epaper shader.
+
+SHADER="$HOME/.config/picom/epaper.glsl"
+
+if pgrep -af picom | grep -q "window-shader-fg"; then
+	# currently in e-paper mode -> back to normal
+	killall picom 2>/dev/null
+	setsid -f picom >/dev/null 2>&1
+	notify-send -t 1500 "E-Paper" "off" 2>/dev/null
+else
+	# normal -> e-paper mode
+	killall picom 2>/dev/null
+	setsid -f picom \
+		--backend glx \
+		--window-shader-fg "$SHADER" \
+		--root-pixmap-shader "$SHADER" \
+		>/dev/null 2>&1
+	notify-send -t 1500 "E-Paper" "on" 2>/dev/null
+fi
