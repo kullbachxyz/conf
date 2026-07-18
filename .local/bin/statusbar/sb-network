@@ -1,46 +1,26 @@
 #!/bin/sh
 
+# wlan/ethernet icon (mac-style, icon only)
 cache="/tmp/statusbar-network"
-
-write_cache() {
-	printf '%s\n' "$1" >"$cache"
-}
-
-cached_output() {
-	if [ -r "$cache" ]; then
-		cat "$cache"
-	fi
-}
 
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
 		1|2) setsid -f st -e wlctl ;;
-    	3) notify-send "🌐 Internet module" "\- Click to connect
-❌: wifi disabled
-📶: wifi connection working
-🌐: ethernet working
-" ;;
+		3) notify-send "Network" "Left click opens wlctl." ;;
 	esac
 fi
 
 route=$(ip route show default 2>/dev/null)
 if [ $? -ne 0 ]; then
-	cached_output
+	[ -r "$cache" ] && cat "$cache"
 	exit 0
 fi
-
 iface=$(printf '%s\n' "$route" | awk 'NR==1{print $5}')
-
 if [ -n "$iface" ]; then
-	if [ -d "/sys/class/net/$iface/wireless" ]; then
-		status='📶'
-	else
-		status='🌐'
-	fi
+	if [ -d "/sys/class/net/$iface/wireless" ]; then icon=''; else icon=''; fi
 else
-	status='❌'
+	icon='󰖪'
 fi
-
-write_cache "$status"
-printf '%s\n' "$status"
+printf '%s\n' "$icon" > "$cache"
+printf '%s\n' "$icon"

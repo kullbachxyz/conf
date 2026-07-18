@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Shows Nextcloud sync status.
+# Left click shows summary notification.
+# Middle click triggers manual sync.
+
+STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/nextcloud_state"
+LOG="${XDG_RUNTIME_DIR:-/tmp}/nextcloud_sync.log"
+
+summary() {
+    status="$(sed -n '1p' "$STATE_FILE" 2>/dev/null)"
+    timestamp="$(sed -n '2p' "$STATE_FILE" 2>/dev/null)"
+    warnings="$(grep -E '\[ warning|\[ fatal' "$LOG" 2>/dev/null | grep -v 'database error' | tail -5)"
+    body="Letzter Sync: ${timestamp:-unbekannt}"
+    [ -n "$warnings" ] && body="$body
+
+Warnungen:
+$warnings"
+    notify-send "󰅟 Nextcloud ($status)" "$body"
+}
+
+case $BLOCK_BUTTON in
+    1) summary ;;
+    2) setsid -f cloudsyncs ;;
+    3) notify-send "󰅟 Nextcloud module" "\- 󰅠: Sync erfolgreich
+- 󰘿: Sync läuft
+- 󰅤: Sync fehlgeschlagen
+- 󰅟: Noch kein Sync
+- Links: Zusammenfassung
+- Mitte: Manuell syncen" ;;
+    6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+[ -e "${XDG_RUNTIME_DIR:-/tmp}/nextcloud_sync.lock" ] && echo "󰘿" && exit 0
+
+[ ! -f "$STATE_FILE" ] && echo "󰅟" && exit 0
+
+status="$(sed -n '1p' "$STATE_FILE")"
+
+case "$status" in
+    ok)    echo "󰅠" ;;
+    error) echo "󰅤" ;;
+    *)     echo "󰅟" ;;
+esac

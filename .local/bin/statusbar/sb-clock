@@ -1,13 +1,12 @@
 #!/bin/sh
 
-
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
 		1|2) setsid -f "$TERMINAL" -e calcurse ;;
-		3) notify-send "🕒 Clock module" "Shows current date and time.
-- Left click opens calcurse." ;;
+		3) notify-send "Clock" "Left click opens calcurse." ;;
 	esac
 fi
 
-printf "🕒%s\n" "$(date "+%d %b %Y (%a) %H:%M")"
+# mac-style date; trailing spaces = gap to the systray on the right
+printf '%s  \n' "$(date "+%a %b %d %H:%M")"
