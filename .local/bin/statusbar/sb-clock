@@ -4,7 +4,8 @@ btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
 		1|2) setsid -f "$TERMINAL" -e calcurse ;;
-		3) notify-send "Clock" "Left click opens calcurse." ;;
+		3) notify-send "Clock module" "Date and time.
+- Left click: calcurse" ;;
 	esac
 fi
 

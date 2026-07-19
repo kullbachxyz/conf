@@ -1,36 +1,31 @@
 #!/bin/sh
 
-# Volume with a Nerd-Font speaker icon (mute icon if muted).
+# Volume as a level-dependent speaker icon only. ALWAYS prints an icon
+# (button actions fall through to the print) so the block is never empty.
 
 btn="${BLOCK_BUTTON:-$BUTTON}"
-if [ -n "$btn" ]; then
-	case "$btn" in
-		1|2)
-			setsid st -e pulsemixer
-			pkill -RTMIN+10 dwmblocks
-			exit
-			;;
-		3) notify-send "VOL module" "Shows current volume level.
-- Left click opens pulsemixer." ;;
-	esac
-fi
+case "$btn" in
+	1|2) setsid -f st -e pulsemixer ;;
+	3) notify-send "Volume module" "Speaker icon by level: mute / low / medium / high.
+- Left click: pulsemixer
+- Scroll: volume +/- 5%" ;;
+	4) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ ;;
+	5) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- ;;
+esac
 
 vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)" || vol=""
 
 if [ -z "$vol" ] || [ "$vol" != "${vol%\[MUTED\]}" ]; then
-	printf '\n'
+	printf '󰸈\n'
 	exit
 fi
 
 vol="${vol#Volume: }"
+split() { IFS=$2; set -- $1; printf '%s' "$@"; }
+vol="$(printf '%.0f' "$(split "$vol" ".")")"
 
-split() {
-	IFS=$2
-	set -- $1
-	printf '%s' "$@"
-}
-
-vol="$(printf "%.0f" "$(split "$vol" ".")")"
-
-[ "$vol" -ge 50 ] && icon='' || icon=''
-printf '%s %s\n' "$icon" "$vol"
+if   [ "$vol" -ge 67 ]; then icon='󰕾'
+elif [ "$vol" -ge 34 ]; then icon='󰖀'
+elif [ "$vol" -ge 1 ];  then icon='󰕿'
+else icon='󰝟'; fi
+printf '%s\n' "$icon"

@@ -1,20 +1,34 @@
 #!/bin/sh
 
-# bluetooth icon: off / on / connected
+# Bluetooth icon: off / on / connected. Cached so rapid clicks don't spawn
+# bluetoothctl (slow) and flash the "off" icon; a failed query keeps last state.
+
+cache="/tmp/statusbar-bluetooth"
 
 btn="${BLOCK_BUTTON:-$BUTTON}"
 if [ -n "$btn" ]; then
 	case "$btn" in
 		1|2) setsid -f "$TERMINAL" -e bluetui ;;
-		3) notify-send "Bluetooth" "Left click opens bluetoothctl." ;;
+		3) notify-send "Bluetooth module" "Icon by state: off / on / connected.
+- Left click: bluetui" ;;
 	esac
+	# a button press must NOT re-query bluetoothctl; echo the cached state
+	[ -r "$cache" ] && cat "$cache"
+	exit 0
 fi
 
-if [ "$(timeout 2 bluetoothctl show 2>/dev/null | grep -c 'Powered: yes')" -eq 0 ]; then
+# interval/signal only: query once, robustly
+out=$(timeout 2 bluetoothctl show 2>/dev/null)
+if [ -z "$out" ]; then
+	# query failed / timed out -> keep the last known icon
+	[ -r "$cache" ] && cat "$cache"
+	exit 0
+fi
+if ! printf '%s\n' "$out" | grep -q 'Powered: yes'; then
 	icon='󰂲'
 elif timeout 2 bluetoothctl devices Connected 2>/dev/null | grep -q .; then
 	icon='󰂱'
 else
 	icon='󰂯'
 fi
-printf '%s\n' "$icon"
+printf '%s\n' "$icon" | tee "$cache"

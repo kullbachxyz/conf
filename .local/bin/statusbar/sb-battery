@@ -1,9 +1,13 @@
 #!/bin/sh
 
 # mac-style: <percentage>% <md battery icon>. Level-matched normal / charging icon.
+# Codepoints verified by glyph name (md-battery* / md-battery_charging*).
 
 case $BLOCK_BUTTON in
 	1) setsid -f "$TERMINAL" -e sh -c "upower -d; read -r" ;;
+	3) notify-send "Battery module" "Percentage + level icon (bolt icon while charging).
+- Left click: upower details
+- Scroll: brightness +/-" ;;
 	4) brightnessctl set 10+ ;;
 	5) brightnessctl set 10- ;;
 	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
@@ -13,16 +17,16 @@ for battery in /sys/class/power_supply/BAT?*; do
 	[ -n "${capacity+x}" ] && printf " "
 	capacity="$(cat "$battery/capacity" 2>&1)"
 	if   [ "$capacity" -ge 95 ]; then n='󰁹'; c='󰂅'
-	elif [ "$capacity" -ge 85 ]; then n='󰂂';  c='󰢠'
-	elif [ "$capacity" -ge 75 ]; then n='󰂁';  c='󰂉'
-	elif [ "$capacity" -ge 65 ]; then n='󰂀';  c='󰢟'
-	elif [ "$capacity" -ge 55 ]; then n='󰁿';  c='󰂈'
-	elif [ "$capacity" -ge 45 ]; then n='󰁾';  c='󰢞'
-	elif [ "$capacity" -ge 35 ]; then n='󰁽';  c='󰂇'
-	elif [ "$capacity" -ge 25 ]; then n='󰁼';  c='󰂆'
-	elif [ "$capacity" -ge 15 ]; then n='󰁻';  c='󰢝'
+	elif [ "$capacity" -ge 85 ]; then n='󰂂';  c='󰂋'
+	elif [ "$capacity" -ge 75 ]; then n='󰂁';  c='󰂊'
+	elif [ "$capacity" -ge 65 ]; then n='󰂀';  c='󰢞'
+	elif [ "$capacity" -ge 55 ]; then n='󰁿';  c='󰂉'
+	elif [ "$capacity" -ge 45 ]; then n='󰁾';  c='󰢝'
+	elif [ "$capacity" -ge 35 ]; then n='󰁽';  c='󰂈'
+	elif [ "$capacity" -ge 25 ]; then n='󰁼';  c='󰂇'
+	elif [ "$capacity" -ge 15 ]; then n='󰁻';  c='󰂆'
 	elif [ "$capacity" -ge 5 ];  then n='󰁺';  c='󰢜'
-	else n='󰂃'; c='󰢜'; fi
+	else n='󰂃'; c='󰂄'; fi
 	case "$(cat "$battery/status" 2>&1)" in
 		"Full"|"Charging") icon="$c" ;;
 		*) icon="$n" ;;
