@@ -51,7 +51,11 @@ su	🔑
 *.pdf	📕
 *.djvu	📕
 *.odt	📝
+*.doc	📝
+*.docx	📝
 *.ods	📊
+*.xls	📊
+*.xlsx	📊
 *.tex	📄
 *.ms	📄
 *.mom	📄

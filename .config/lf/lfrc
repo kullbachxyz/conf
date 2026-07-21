@@ -5,6 +5,7 @@ set previewer '~/.config/lf/scope'
 
 # Commands
 cmd mkdir $mkdir -p "$@"
+cmd rotate $mogrify -rotate 90 "$f" && rm -f "${XDG_CACHE_HOME:-$HOME/.cache}/ueberzugpp"/* && lf -remote "send $id reload"
 
 # Bindings
 cmd open $linkhandler "$f"
@@ -24,3 +25,4 @@ map zh set hidden!
 map zr set reverse!
 map X $extract "$fx" && lf -remote "send $id reload"
 map bg $setbg "$f"
+map R rotate
