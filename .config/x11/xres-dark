@@ -1,0 +1,51 @@
+! Mudita Mindful Design — DARK (pure monochrome: white on black)
+! Reference tokens: bg #000, fg #fff, muted #b0b0b0, divider #444, code-bg #141414.
+! Loaded via `xrdb -merge` by ~/.local/bin/theme. Consumed by st, dmenu, dwm.
+
+! --- shared / st (neutral grayscale ramp; no color accents) ---
+st.font:        IBM Plex Mono:size=12
+! Selenized black (colorful — visible when the grayscale shader is OFF)
+st.foreground:  #dedede
+st.background:  #000000
+st.cursorColor: #dedede
+st.color0:      #303030
+st.color1:      #ed4a46
+st.color2:      #70b433
+st.color3:      #dbb32d
+st.color4:      #368aeb
+st.color5:      #eb6eb7
+st.color6:      #3fc5b7
+st.color7:      #b9b9b9
+st.color8:      #777777
+st.color9:      #ff5e56
+st.color10:     #83c746
+st.color11:     #efc541
+st.color12:     #4f9cfe
+st.color13:     #ff81ca
+st.color14:     #56d8c9
+st.color15:     #dedede
+
+! --- dwm ---
+dwm.normfgcolor:     #ffffff
+dwm.normbgcolor:     #000000
+dwm.normbordercolor: #000000
+dwm.selfgcolor:      #000000
+dwm.selbgcolor:      #ffffff
+dwm.selbordercolor:  #ffffff
+
+! --- dmenu ---
+dmenu.font:   IBM Plex Mono:size=12
+dmenu.normfg: #ffffff
+dmenu.normbg: #000000
+dmenu.selfg:  #000000
+dmenu.selbg:  #ffffff
+dmenu.outfg:  #000000
+dmenu.outbg:  #b0b0b0
+
+! --- nsxiv (image viewer) ---
+Nsxiv.window.background: #000000
+Nsxiv.window.foreground: #ffffff
+Nsxiv.bar.background:     #000000
+Nsxiv.bar.foreground:    #ffffff
+Nsxiv.bar.font:          IBM Plex Mono:size=12
+Nsxiv.mark.foreground:   #ffffff
