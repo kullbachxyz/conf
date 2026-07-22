@@ -1,6 +1,6 @@
 ! Mudita Mindful Design — DARK (pure monochrome: white on black)
 ! Reference tokens: bg #000, fg #fff, muted #b0b0b0, divider #444, code-bg #141414.
-! Loaded via `xrdb -merge` by ~/.local/bin/theme. Consumed by st, dmenu, dwm.
+! Loaded via `xrdb -merge` at login (.xinitrc). Consumed by st, dmenu, dwm.
 
 ! --- shared / st (neutral grayscale ramp; no color accents) ---
 st.font:        IBM Plex Mono:size=12

@@ -4,7 +4,7 @@ follow = keyboard
 width = (0, 512)
 height = (0, 315)
 frame_width = 3
-offset = (10, 33)
+offset = (20, 43)
 padding = 15
 horizontal_padding = 15
 transparency = 0
@@ -12,19 +12,19 @@ font = Adwaita Mono 13
 format = "<b>%s</b>\n%b"
 
 [urgency_low]
-background = "#1c1c1c"
-foreground = "#d8d8d8"
-frame_color = "#555555"
+background = "#000000"
+foreground = "#ffffff"
+frame_color = "#ffffff"
 timeout = 3
 
 [urgency_normal]
-background = "#1c1c1c"
-foreground = "#d8d8d8"
-frame_color = "#888888"
+background = "#000000"
+foreground = "#ffffff"
+frame_color = "#ffffff"
 timeout = 5
 
 [urgency_critical]
-background = "#1c1c1c"
-foreground = "#d8d8d8"
-frame_color = "#cc4444"
+background = "#000000"
+foreground = "#ffffff"
+frame_color = "#ffffff"
 timeout = 10

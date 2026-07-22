@@ -8,24 +8,24 @@ INTERNAL="eDP-1"
 EXTERNAL="$(xrandr --query | awk '$2 == "connected" && $1 != "eDP-1" { print $1; exit }')"
 
 # Mirror internal display onto external monitor, scaling to match its resolution
-# if [ -n "$EXTERNAL" ]; then
-#     xrandr \
-#         --output "$EXTERNAL" --mode 2560x1440 --primary \
-#         --output "$INTERNAL" --mode 1920x1080 --same-as "$EXTERNAL" --scale-from 2560x1440
-# else
-#     xrandr \
-#         --output "$INTERNAL" --mode 1920x1080 --primary
-# fi
-
-# Extend external monitor normally and place it above the internal display
 if [ -n "$EXTERNAL" ]; then
     xrandr \
         --output "$EXTERNAL" --mode 2560x1440 --primary \
-        --output "$INTERNAL" --mode 1920x1080 --transform none --below "$EXTERNAL"
+        --output "$INTERNAL" --mode 1920x1080 --same-as "$EXTERNAL" --scale-from 2560x1440
 else
     xrandr \
         --output "$INTERNAL" --mode 1920x1080 --primary
 fi
+
+# Extend external monitor normally and place it above the internal display
+#if [ -n "$EXTERNAL" ]; then
+#    xrandr \
+#        --output "$EXTERNAL" --mode 2560x1440 --primary \
+#        --output "$INTERNAL" --mode 1920x1080 --transform none --below "$EXTERNAL"
+#else
+#    xrandr \
+#        --output "$INTERNAL" --mode 1920x1080 --primary
+#fi
 
 # Set a normal cursor for the root window / bar (avoids the huge X core cursor)
 xsetroot -cursor_name left_ptr
@@ -34,8 +34,13 @@ xsetroot -cursor_name left_ptr
 # xdg-desktop-portal-gtk can open the display (needed for save/download dialogs)
 dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
 
+# Load the MMD dark color theme into the X resource database so st, dmenu and
+# dwm pick it up at startup. The desktop is dark-only (no runtime switcher).
+xrdb -merge "$HOME/.config/x11/xres-dark"
+
 # Autostart
-setbg &
+xsettingsd &   # XSETTINGS provider -> pushes GTK theme/icons/font to GTK apps
+setbg "$HOME/.config/x11/bg-dark.png" &
 picom &
 unclutter &
 dunst &

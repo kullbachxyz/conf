@@ -1,0 +1,11 @@
+/* MMD: colours come from the GTK theme.
+ * Remove CSD window decoration (border/shadow) — dwm draws the frame. Cover the
+ * :backdrop (unfocused) state too, else GTK shows a grey border on it. */
+window.csd, window.csd:backdrop,
+window.csd decoration, window.csd decoration:backdrop,
+window decoration, window decoration:backdrop {
+	border: none;
+	box-shadow: none;
+	margin: 0;
+	background: none;
+}

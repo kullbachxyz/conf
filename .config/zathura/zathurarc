@@ -7,7 +7,7 @@ set statusbar-home-tilde true
 set guioptions s
 
 # Font
-set font "Iosevka Nerd Font Propo 10"
+set font "Lato 11"
 
 # Page layout
 set adjust-open width
@@ -28,11 +28,26 @@ set zoom-step 10
 set search-hadjust true
 set incremental-search true
 
-# Recolor PDFs
-# Toggle with Ctrl+r or i
-set recolor false
-set recolor-keephue true
-set recolor-reverse-video false
+# Theme colors (MMD dark: white-on-black)
+set default-bg              "#000000"
+set default-fg              "#ffffff"
+set statusbar-bg           "#000000"
+set statusbar-fg           "#ffffff"
+set inputbar-bg            "#000000"
+set inputbar-fg           "#ffffff"
+set completion-bg          "#000000"
+set completion-fg          "#ffffff"
+set completion-highlight-bg "#ffffff"
+set completion-highlight-fg "#000000"
+set highlight-color        "#cccccc"
+set highlight-active-color "#999999"
+
+# Recolor PDFs (dark mode inverts: paper->bg, ink->fg). Toggle: Ctrl+r or i
+set recolor                true
+set recolor-keephue        true
+set recolor-reverse-video  false
+set recolor-lightcolor     "#000000"
+set recolor-darkcolor      "#ffffff"
 
 
 # Good extra mappings
