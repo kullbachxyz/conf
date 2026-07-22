@@ -1,7 +1,7 @@
 #!/bin/bash
-# Wrapper that applies the dark-theme shim to Omnissa Horizon Client.
+# Wrapper that applies the MMD dark-theme shim to Omnissa Horizon Client.
 # GTK_THEME must match the theme name installed under ~/.themes/ or /usr/share/themes/.
-export GTK_THEME=Catppuccin-Mocha:dark
+export GTK_THEME=MMD-Dark
 export LD_PRELOAD="${HOME}/.local/lib/horizon-theme.so${LD_PRELOAD:+:${LD_PRELOAD}}"
 
 # Der Client legt hart "$HOME/omnissa-$USER" als Log-/Config-Dir an (kein Env-Override

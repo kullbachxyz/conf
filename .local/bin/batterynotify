@@ -15,7 +15,7 @@ case "$status" in
 	Full)
 		last="$(cat "$STATEFILE" 2>/dev/null)"
 		if [ "$last" != "full" ]; then
-			notify-send -u low "🔋 Akku voll" "${capacity}%"
+			notify-send -u low " Akku voll" "${capacity}%"
 			echo "full" > "$STATEFILE"
 		fi
 		exit 0 ;;
@@ -52,5 +52,5 @@ else
 	timestr=""
 fi
 
-notify-send -u "$urgency" "🪫 Akku: ${capacity}%" "$timestr"
+notify-send -u "$urgency" " Akku: ${capacity}%" "$timestr"
 echo "$level" > "$STATEFILE"

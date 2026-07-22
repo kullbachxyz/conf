@@ -7,9 +7,9 @@ export SUDO_ASKPASS="${SUDO_ASKPASS:-$HOME/.local/bin/dmenupass}"
 
 set -e
 
-mounteddroids="$(grep simple-mtpfs /etc/mtab | awk '{print "📱" $2}')"
+mounteddroids="$(grep simple-mtpfs /etc/mtab | awk '{print "" $2}')"
 lsblkoutput="$(lsblk -nrpo "name,type,size,mountpoint")"
-mounteddrives="$(echo "$lsblkoutput" | awk '($2=="part"||$2="crypt")&&$4!~/\/boot|\/home$|SWAP/&&length($4)>1{printf "💾%s (%s)\n",$4,$3}')"
+mounteddrives="$(echo "$lsblkoutput" | awk '($2=="part"||$2="crypt")&&$4!~/\/boot|\/home$|SWAP/&&length($4)>1{printf "%s (%s)\n",$4,$3}')"
 
 allunmountable="$(echo "$mounteddroids
 $mounteddrives" | sed "/^$/d;s/ *$//")"
@@ -32,7 +32,7 @@ cryptid="$(echo "$lsblkoutput" | grep "${mountpoint}$")"
 cryptid="${cryptid%% *}"
 if test -b "/dev/mapper/${cryptid##*/}"; then
     sudo -A cryptsetup close "$cryptid"
-    notify-send "🔒Device encryption closed." "Drive is now securely locked again."
+    notify-send "Device encryption closed." "Drive is now securely locked again."
 fi
 
 # Power off the physical device (non-fatal, skipped for MTP phones).
