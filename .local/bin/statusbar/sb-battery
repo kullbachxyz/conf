@@ -16,6 +16,8 @@ esac
 for battery in /sys/class/power_supply/BAT?*; do
 	[ -n "${capacity+x}" ] && printf " "
 	capacity="$(cat "$battery/capacity" 2>&1)"
+	# firmware can report >100% when charge_now exceeds the learned charge_full
+	[ "$capacity" -gt 100 ] 2>/dev/null && capacity=100
 	if   [ "$capacity" -ge 95 ]; then n='󰁹'; c='󰂅'
 	elif [ "$capacity" -ge 85 ]; then n='󰂂';  c='󰂋'
 	elif [ "$capacity" -ge 75 ]; then n='󰂁';  c='󰂊'
